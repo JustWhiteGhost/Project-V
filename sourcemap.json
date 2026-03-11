@@ -5,248 +5,89 @@
     {
       "name": "Lighting",
       "className": "Lighting",
-      "guid": "9409",
+      "guid": "127400",
       "children": [
         {
           "name": "Atmosphere",
           "className": "Atmosphere",
-          "guid": "9355"
+          "guid": "127381"
         },
         {
           "name": "Bloom",
           "className": "BloomEffect",
-          "guid": "9383"
+          "guid": "127389"
         },
         {
           "name": "DepthOfField",
           "className": "DepthOfFieldEffect",
-          "guid": "9400"
+          "guid": "127397"
         },
         {
           "name": "Sky",
           "className": "Sky",
-          "guid": "9482"
+          "guid": "127447"
         },
         {
           "name": "SunRays",
           "className": "SunRaysEffect",
-          "guid": "9504"
+          "guid": "127452"
         }
       ]
     },
     {
       "name": "ReplicatedFirst",
       "className": "ReplicatedFirst",
-      "guid": "7156"
+      "guid": "127016"
     },
     {
       "name": "ReplicatedStorage",
       "className": "ReplicatedStorage",
-      "guid": "9476",
-      "children": [
-        {
-          "name": "Shared",
-          "className": "Folder",
-          "guid": "9404",
-          "children": [
-            {
-              "name": "Hello",
-              "className": "ModuleScript",
-              "guid": "9454",
-              "filePaths": [
-                "sync/ReplicatedStorage/Shared/Hello.luau"
-              ]
-            }
-          ]
-        }
-      ]
+      "guid": "127142"
     },
     {
       "name": "ServerScriptService",
       "className": "ServerScriptService",
-      "guid": "9479",
-      "children": [
-        {
-          "name": "Server",
-          "className": "Script",
-          "guid": "9477",
-          "filePaths": [
-            "sync/ServerScriptService/Server.server.luau"
-          ]
-        }
-      ]
+      "guid": "127143"
     },
     {
       "name": "ServerStorage",
       "className": "ServerStorage",
-      "guid": "9480",
-      "children": [
-        {
-          "name": "__Rojo_SessionLock",
-          "className": "ObjectValue",
-          "guid": "383926"
-        }
-      ]
+      "guid": "127144"
     },
     {
       "name": "SoundService",
       "className": "SoundService",
-      "guid": "6827"
+      "guid": "126991"
     },
     {
       "name": "StarterGui",
       "className": "StarterGui",
-      "guid": "7169"
+      "guid": "127092"
     },
     {
       "name": "StarterPack",
       "className": "StarterPack",
-      "guid": "7168"
+      "guid": "127091"
     },
     {
       "name": "StarterPlayer",
       "className": "StarterPlayer",
-      "guid": "7167",
+      "guid": "127090",
       "children": [
         {
           "name": "StarterCharacterScripts",
           "className": "StarterCharacterScripts",
-          "guid": "9485",
-          "children": [
-            {
-              "name": "Animate",
-              "className": "LocalScript",
-              "guid": "9411",
-              "filePaths": [
-                "sync/StarterPlayer/StarterCharacterScripts/Animate.client.luau"
-              ],
-              "children": [
-                {
-                  "name": "climb",
-                  "className": "StringValue",
-                  "guid": "9502",
-                  "children": [
-                    {
-                      "name": "ClimbAnim",
-                      "className": "Animation",
-                      "guid": "9353"
-                    }
-                  ]
-                },
-                {
-                  "name": "fall",
-                  "className": "StringValue",
-                  "guid": "9500",
-                  "children": [
-                    {
-                      "name": "FallAnim",
-                      "className": "Animation",
-                      "guid": "9351"
-                    }
-                  ]
-                },
-                {
-                  "name": "idle",
-                  "className": "StringValue",
-                  "guid": "9499",
-                  "children": [
-                    {
-                      "name": "Animation1",
-                      "className": "Animation",
-                      "guid": "9350",
-                      "children": [
-                        {
-                          "name": "Weight",
-                          "className": "NumberValue",
-                          "guid": "9464"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "name": "jump",
-                  "className": "StringValue",
-                  "guid": "9496",
-                  "children": [
-                    {
-                      "name": "JumpAnim",
-                      "className": "Animation",
-                      "guid": "9347"
-                    }
-                  ]
-                },
-                {
-                  "name": "PlayEmote",
-                  "className": "BindableFunction",
-                  "guid": "9382"
-                },
-                {
-                  "name": "run",
-                  "className": "StringValue",
-                  "guid": "9497",
-                  "children": [
-                    {
-                      "name": "RunAnim",
-                      "className": "Animation",
-                      "guid": "9348"
-                    }
-                  ]
-                },
-                {
-                  "name": "ScaleDampeningPercent",
-                  "className": "NumberValue",
-                  "guid": "9465"
-                },
-                {
-                  "name": "sit",
-                  "className": "StringValue",
-                  "guid": "9495",
-                  "children": [
-                    {
-                      "name": "SitAnim",
-                      "className": "Animation",
-                      "guid": "9346"
-                    }
-                  ]
-                },
-                {
-                  "name": "toolnone",
-                  "className": "StringValue",
-                  "guid": "9501",
-                  "children": [
-                    {
-                      "name": "ToolNoneAnim",
-                      "className": "Animation",
-                      "guid": "9352"
-                    }
-                  ]
-                },
-                {
-                  "name": "walk",
-                  "className": "StringValue",
-                  "guid": "9498",
-                  "children": [
-                    {
-                      "name": "WalkAnim",
-                      "className": "Animation",
-                      "guid": "9349"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
+          "guid": "127449"
         },
         {
           "name": "StarterPlayerScripts",
           "className": "StarterPlayerScripts",
-          "guid": "9486",
+          "guid": "127450",
           "children": [
             {
               "name": "PlayerModule",
               "className": "ModuleScript",
-              "guid": "900080",
+              "guid": "127405",
               "filePaths": [
                 "sync/StarterPlayer/StarterPlayerScripts/PlayerModule.luau"
               ],
@@ -254,7 +95,7 @@
                 {
                   "name": "CameraModule",
                   "className": "ModuleScript",
-                  "guid": "900081",
+                  "guid": "127418",
                   "filePaths": [
                     "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule.luau"
                   ],
@@ -262,7 +103,7 @@
                     {
                       "name": "BaseCamera",
                       "className": "ModuleScript",
-                      "guid": "900099",
+                      "guid": "127422",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/BaseCamera.luau"
                       ]
@@ -270,7 +111,7 @@
                     {
                       "name": "BaseOcclusion",
                       "className": "ModuleScript",
-                      "guid": "900082",
+                      "guid": "127438",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/BaseOcclusion.luau"
                       ]
@@ -278,7 +119,7 @@
                     {
                       "name": "CameraInput",
                       "className": "ModuleScript",
-                      "guid": "900100",
+                      "guid": "127421",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraInput.luau"
                       ]
@@ -286,7 +127,7 @@
                     {
                       "name": "CameraToggleStateController",
                       "className": "ModuleScript",
-                      "guid": "900088",
+                      "guid": "127425",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraToggleStateController.luau"
                       ]
@@ -294,7 +135,7 @@
                     {
                       "name": "CameraUI",
                       "className": "ModuleScript",
-                      "guid": "900087",
+                      "guid": "127423",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraUI.luau"
                       ]
@@ -302,7 +143,7 @@
                     {
                       "name": "CameraUtils",
                       "className": "ModuleScript",
-                      "guid": "900102",
+                      "guid": "127426",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraUtils.luau"
                       ]
@@ -310,7 +151,7 @@
                     {
                       "name": "ClassicCamera",
                       "className": "ModuleScript",
-                      "guid": "900083",
+                      "guid": "127429",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/ClassicCamera.luau"
                       ]
@@ -318,7 +159,7 @@
                     {
                       "name": "Invisicam",
                       "className": "ModuleScript",
-                      "guid": "900101",
+                      "guid": "127419",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/Invisicam.luau"
                       ]
@@ -326,7 +167,7 @@
                     {
                       "name": "LegacyCamera",
                       "className": "ModuleScript",
-                      "guid": "900084",
+                      "guid": "127433",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/LegacyCamera.luau"
                       ]
@@ -334,7 +175,7 @@
                     {
                       "name": "MouseLockController",
                       "className": "ModuleScript",
-                      "guid": "900094",
+                      "guid": "127434",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/MouseLockController.luau"
                       ]
@@ -342,7 +183,7 @@
                     {
                       "name": "OrbitalCamera",
                       "className": "ModuleScript",
-                      "guid": "900086",
+                      "guid": "127435",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/OrbitalCamera.luau"
                       ]
@@ -350,7 +191,7 @@
                     {
                       "name": "Poppercam",
                       "className": "ModuleScript",
-                      "guid": "900097",
+                      "guid": "127439",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/Poppercam.luau"
                       ]
@@ -358,7 +199,7 @@
                     {
                       "name": "TransparencyController",
                       "className": "ModuleScript",
-                      "guid": "900098",
+                      "guid": "127420",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/TransparencyController.luau"
                       ]
@@ -366,7 +207,7 @@
                     {
                       "name": "VehicleCamera",
                       "className": "ModuleScript",
-                      "guid": "900090",
+                      "guid": "127430",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/VehicleCamera.luau"
                       ],
@@ -374,7 +215,7 @@
                         {
                           "name": "VehicleCameraConfig",
                           "className": "ModuleScript",
-                          "guid": "900091",
+                          "guid": "127432",
                           "filePaths": [
                             "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/VehicleCamera/VehicleCameraConfig.luau"
                           ]
@@ -382,7 +223,7 @@
                         {
                           "name": "VehicleCameraCore",
                           "className": "ModuleScript",
-                          "guid": "900092",
+                          "guid": "127431",
                           "filePaths": [
                             "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/VehicleCamera/VehicleCameraCore.luau"
                           ]
@@ -392,7 +233,7 @@
                     {
                       "name": "VRBaseCamera",
                       "className": "ModuleScript",
-                      "guid": "900093",
+                      "guid": "127424",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/VRBaseCamera.luau"
                       ]
@@ -400,7 +241,7 @@
                     {
                       "name": "VRCamera",
                       "className": "ModuleScript",
-                      "guid": "900089",
+                      "guid": "127436",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/VRCamera.luau"
                       ]
@@ -408,7 +249,7 @@
                     {
                       "name": "VRVehicleCamera",
                       "className": "ModuleScript",
-                      "guid": "900085",
+                      "guid": "127437",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/VRVehicleCamera.luau"
                       ]
@@ -416,7 +257,7 @@
                     {
                       "name": "ZoomController",
                       "className": "ModuleScript",
-                      "guid": "900095",
+                      "guid": "127427",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/ZoomController.luau"
                       ],
@@ -424,7 +265,7 @@
                         {
                           "name": "Popper",
                           "className": "ModuleScript",
-                          "guid": "900096",
+                          "guid": "127428",
                           "filePaths": [
                             "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/ZoomController/Popper.luau"
                           ]
@@ -436,12 +277,12 @@
                 {
                   "name": "CommonUtils",
                   "className": "Folder",
-                  "guid": "900079",
+                  "guid": "127398",
                   "children": [
                     {
                       "name": "CameraWrapper",
                       "className": "ModuleScript",
-                      "guid": "900116",
+                      "guid": "127441",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CommonUtils/CameraWrapper.luau"
                       ]
@@ -449,7 +290,7 @@
                     {
                       "name": "CharacterUtil",
                       "className": "ModuleScript",
-                      "guid": "900117",
+                      "guid": "127440",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CommonUtils/CharacterUtil.luau"
                       ]
@@ -457,7 +298,7 @@
                     {
                       "name": "ConnectionUtil",
                       "className": "ModuleScript",
-                      "guid": "900115",
+                      "guid": "127442",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CommonUtils/ConnectionUtil.luau"
                       ]
@@ -465,7 +306,7 @@
                     {
                       "name": "FlagUtil",
                       "className": "ModuleScript",
-                      "guid": "900118",
+                      "guid": "127443",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CommonUtils/FlagUtil.luau"
                       ]
@@ -475,7 +316,7 @@
                 {
                   "name": "ControlModule",
                   "className": "ModuleScript",
-                  "guid": "900103",
+                  "guid": "127406",
                   "filePaths": [
                     "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule.luau"
                   ],
@@ -483,7 +324,7 @@
                     {
                       "name": "BaseCharacterController",
                       "className": "ModuleScript",
-                      "guid": "900108",
+                      "guid": "127414",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/BaseCharacterController.luau"
                       ]
@@ -491,7 +332,7 @@
                     {
                       "name": "ClickToMoveController",
                       "className": "ModuleScript",
-                      "guid": "900111",
+                      "guid": "127417",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/ClickToMoveController.luau"
                       ]
@@ -499,7 +340,7 @@
                     {
                       "name": "ClickToMoveDisplay",
                       "className": "ModuleScript",
-                      "guid": "900105",
+                      "guid": "127412",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/ClickToMoveDisplay.luau"
                       ]
@@ -507,7 +348,7 @@
                     {
                       "name": "DynamicThumbstick",
                       "className": "ModuleScript",
-                      "guid": "900107",
+                      "guid": "127410",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/DynamicThumbstick.luau"
                       ]
@@ -515,7 +356,7 @@
                     {
                       "name": "Gamepad",
                       "className": "ModuleScript",
-                      "guid": "900104",
+                      "guid": "127408",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/Gamepad.luau"
                       ]
@@ -523,7 +364,7 @@
                     {
                       "name": "Keyboard",
                       "className": "ModuleScript",
-                      "guid": "900110",
+                      "guid": "127416",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/Keyboard.luau"
                       ]
@@ -531,7 +372,7 @@
                     {
                       "name": "PathDisplay",
                       "className": "ModuleScript",
-                      "guid": "900112",
+                      "guid": "127407",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/PathDisplay.luau"
                       ]
@@ -539,7 +380,7 @@
                     {
                       "name": "TouchJump",
                       "className": "ModuleScript",
-                      "guid": "900109",
+                      "guid": "127413",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/TouchJump.luau"
                       ]
@@ -547,7 +388,7 @@
                     {
                       "name": "TouchThumbstick",
                       "className": "ModuleScript",
-                      "guid": "900113",
+                      "guid": "127411",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/TouchThumbstick.luau"
                       ]
@@ -555,7 +396,7 @@
                     {
                       "name": "VehicleController",
                       "className": "ModuleScript",
-                      "guid": "900106",
+                      "guid": "127415",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/VehicleController.luau"
                       ]
@@ -563,11 +404,37 @@
                     {
                       "name": "VRNavigation",
                       "className": "ModuleScript",
-                      "guid": "900114",
+                      "guid": "127409",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/VRNavigation.luau"
                       ]
                     }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "PlayerScriptsLoader",
+              "className": "LocalScript",
+              "guid": "127401",
+              "filePaths": [
+                "sync/StarterPlayer/StarterPlayerScripts/PlayerScriptsLoader.client.luau"
+              ]
+            },
+            {
+              "name": "RbxCharacterSounds",
+              "className": "LocalScript",
+              "guid": "127402",
+              "filePaths": [
+                "sync/StarterPlayer/StarterPlayerScripts/RbxCharacterSounds.client.luau"
+              ],
+              "children": [
+                {
+                  "name": "AtomicBinding",
+                  "className": "ModuleScript",
+                  "guid": "127404",
+                  "filePaths": [
+                    "sync/StarterPlayer/StarterPlayerScripts/RbxCharacterSounds/AtomicBinding.luau"
                   ]
                 }
               ]
@@ -579,451 +446,41 @@
     {
       "name": "Workspace",
       "className": "Workspace",
-      "guid": "13",
+      "guid": "126149",
       "children": [
-        {
-          "name": "Animation!",
-          "className": "Folder",
-          "guid": "9402"
-        },
         {
           "name": "Baseplate",
           "className": "Part",
-          "guid": "9466",
+          "guid": "127445",
           "children": [
             {
               "name": "Texture",
               "className": "Texture",
-              "guid": "9508"
-            }
-          ]
-        },
-        {
-          "name": "BestWalkAnimR6",
-          "className": "Folder",
-          "guid": "9401",
-          "children": [
-            {
-              "name": "README",
-              "className": "ModuleScript",
-              "guid": "9414",
-              "filePaths": [
-                "sync/Workspace/BestWalkAnimR6/README.luau"
-              ]
+              "guid": "127456"
             }
           ]
         },
         {
           "name": "Camera",
           "className": "Camera",
-          "guid": "348733"
-        },
-        {
-          "name": "Part",
-          "className": "Part",
-          "guid": "9474"
-        },
-        {
-          "name": "Rig",
-          "className": "Model",
-          "guid": "9413",
-          "children": [
-            {
-              "name": "Animate",
-              "className": "LocalScript",
-              "guid": "9410",
-              "filePaths": [
-                "sync/Workspace/Rig/Animate.client.luau"
-              ],
-              "children": [
-                {
-                  "name": "climb",
-                  "className": "StringValue",
-                  "guid": "9491",
-                  "children": [
-                    {
-                      "name": "ClimbAnim",
-                      "className": "Animation",
-                      "guid": "9342"
-                    }
-                  ]
-                },
-                {
-                  "name": "fall",
-                  "className": "StringValue",
-                  "guid": "9493",
-                  "children": [
-                    {
-                      "name": "FallAnim",
-                      "className": "Animation",
-                      "guid": "9344"
-                    }
-                  ]
-                },
-                {
-                  "name": "idle",
-                  "className": "StringValue",
-                  "guid": "9487",
-                  "children": [
-                    {
-                      "name": "Animation1",
-                      "className": "Animation",
-                      "guid": "9337",
-                      "children": [
-                        {
-                          "name": "Weight",
-                          "className": "NumberValue",
-                          "guid": "9461"
-                        }
-                      ]
-                    },
-                    {
-                      "name": "Animation2",
-                      "className": "Animation",
-                      "guid": "9338",
-                      "children": [
-                        {
-                          "name": "Weight",
-                          "className": "NumberValue",
-                          "guid": "9462"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "name": "jump",
-                  "className": "StringValue",
-                  "guid": "9490",
-                  "children": [
-                    {
-                      "name": "JumpAnim",
-                      "className": "Animation",
-                      "guid": "9341"
-                    }
-                  ]
-                },
-                {
-                  "name": "PlayEmote",
-                  "className": "BindableFunction",
-                  "guid": "9381"
-                },
-                {
-                  "name": "run",
-                  "className": "StringValue",
-                  "guid": "9489",
-                  "children": [
-                    {
-                      "name": "RunAnim",
-                      "className": "Animation",
-                      "guid": "9340"
-                    }
-                  ]
-                },
-                {
-                  "name": "ScaleDampeningPercent",
-                  "className": "NumberValue",
-                  "guid": "9463"
-                },
-                {
-                  "name": "sit",
-                  "className": "StringValue",
-                  "guid": "9494",
-                  "children": [
-                    {
-                      "name": "SitAnim",
-                      "className": "Animation",
-                      "guid": "9345"
-                    }
-                  ]
-                },
-                {
-                  "name": "toolnone",
-                  "className": "StringValue",
-                  "guid": "9492",
-                  "children": [
-                    {
-                      "name": "ToolNoneAnim",
-                      "className": "Animation",
-                      "guid": "9343"
-                    }
-                  ]
-                },
-                {
-                  "name": "walk",
-                  "className": "StringValue",
-                  "guid": "9488",
-                  "children": [
-                    {
-                      "name": "WalkAnim",
-                      "className": "Animation",
-                      "guid": "9339"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "Body Colors",
-              "className": "BodyColors",
-              "guid": "9384"
-            },
-            {
-              "name": "Head",
-              "className": "Part",
-              "guid": "9467",
-              "children": [
-                {
-                  "name": "face",
-                  "className": "Decal",
-                  "guid": "9398"
-                },
-                {
-                  "name": "FaceCenterAttachment",
-                  "className": "Attachment",
-                  "guid": "9359"
-                },
-                {
-                  "name": "FaceFrontAttachment",
-                  "className": "Attachment",
-                  "guid": "9358"
-                },
-                {
-                  "name": "HairAttachment",
-                  "className": "Attachment",
-                  "guid": "9356"
-                },
-                {
-                  "name": "HatAttachment",
-                  "className": "Attachment",
-                  "guid": "9357"
-                },
-                {
-                  "name": "Mesh",
-                  "className": "SpecialMesh",
-                  "guid": "9484"
-                }
-              ]
-            },
-            {
-              "name": "Humanoid",
-              "className": "Humanoid",
-              "guid": "9406",
-              "children": [
-                {
-                  "name": "Animator",
-                  "className": "Animator",
-                  "guid": "9354"
-                },
-                {
-                  "name": "HumanoidDescription",
-                  "className": "HumanoidDescription",
-                  "guid": "9407",
-                  "children": [
-                    {
-                      "name": "BodyPartDescription",
-                      "className": "BodyPartDescription",
-                      "guid": "9385"
-                    },
-                    {
-                      "name": "BodyPartDescription",
-                      "className": "BodyPartDescription",
-                      "guid": "9386"
-                    },
-                    {
-                      "name": "BodyPartDescription",
-                      "className": "BodyPartDescription",
-                      "guid": "9387"
-                    },
-                    {
-                      "name": "BodyPartDescription",
-                      "className": "BodyPartDescription",
-                      "guid": "9388"
-                    },
-                    {
-                      "name": "BodyPartDescription",
-                      "className": "BodyPartDescription",
-                      "guid": "9389"
-                    },
-                    {
-                      "name": "BodyPartDescription",
-                      "className": "BodyPartDescription",
-                      "guid": "9390"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "name": "HumanoidRootPart",
-              "className": "Part",
-              "guid": "9473",
-              "children": [
-                {
-                  "name": "RootAttachment",
-                  "className": "Attachment",
-                  "guid": "9374"
-                },
-                {
-                  "name": "RootJoint",
-                  "className": "Motor6D",
-                  "guid": "9460"
-                }
-              ]
-            },
-            {
-              "name": "Left Arm",
-              "className": "Part",
-              "guid": "9469",
-              "children": [
-                {
-                  "name": "LeftGripAttachment",
-                  "className": "Attachment",
-                  "guid": "9369"
-                },
-                {
-                  "name": "LeftShoulderAttachment",
-                  "className": "Attachment",
-                  "guid": "9368"
-                }
-              ]
-            },
-            {
-              "name": "Left Leg",
-              "className": "Part",
-              "guid": "9471",
-              "children": [
-                {
-                  "name": "LeftFootAttachment",
-                  "className": "Attachment",
-                  "guid": "9372"
-                }
-              ]
-            },
-            {
-              "name": "Right Arm",
-              "className": "Part",
-              "guid": "9470",
-              "children": [
-                {
-                  "name": "RightGripAttachment",
-                  "className": "Attachment",
-                  "guid": "9371"
-                },
-                {
-                  "name": "RightShoulderAttachment",
-                  "className": "Attachment",
-                  "guid": "9370"
-                }
-              ]
-            },
-            {
-              "name": "Right Leg",
-              "className": "Part",
-              "guid": "9472",
-              "children": [
-                {
-                  "name": "RightFootAttachment",
-                  "className": "Attachment",
-                  "guid": "9373"
-                }
-              ]
-            },
-            {
-              "name": "Torso",
-              "className": "Part",
-              "guid": "9468",
-              "children": [
-                {
-                  "name": "BodyBackAttachment",
-                  "className": "Attachment",
-                  "guid": "9362"
-                },
-                {
-                  "name": "BodyFrontAttachment",
-                  "className": "Attachment",
-                  "guid": "9361"
-                },
-                {
-                  "name": "Left Hip",
-                  "className": "Motor6D",
-                  "guid": "9458"
-                },
-                {
-                  "name": "Left Shoulder",
-                  "className": "Motor6D",
-                  "guid": "9456"
-                },
-                {
-                  "name": "LeftCollarAttachment",
-                  "className": "Attachment",
-                  "guid": "9363"
-                },
-                {
-                  "name": "Neck",
-                  "className": "Motor6D",
-                  "guid": "9459"
-                },
-                {
-                  "name": "NeckAttachment",
-                  "className": "Attachment",
-                  "guid": "9360"
-                },
-                {
-                  "name": "Right Hip",
-                  "className": "Motor6D",
-                  "guid": "9457"
-                },
-                {
-                  "name": "Right Shoulder",
-                  "className": "Motor6D",
-                  "guid": "9455"
-                },
-                {
-                  "name": "RightCollarAttachment",
-                  "className": "Attachment",
-                  "guid": "9364"
-                },
-                {
-                  "name": "roblox",
-                  "className": "Decal",
-                  "guid": "9399"
-                },
-                {
-                  "name": "WaistBackAttachment",
-                  "className": "Attachment",
-                  "guid": "9367"
-                },
-                {
-                  "name": "WaistCenterAttachment",
-                  "className": "Attachment",
-                  "guid": "9366"
-                },
-                {
-                  "name": "WaistFrontAttachment",
-                  "className": "Attachment",
-                  "guid": "9365"
-                }
-              ]
-            }
-          ]
+          "guid": "127391"
         },
         {
           "name": "SpawnLocation",
           "className": "SpawnLocation",
-          "guid": "9483",
+          "guid": "127448",
           "children": [
             {
               "name": "Decal",
               "className": "Decal",
-              "guid": "9397"
+              "guid": "127396"
             }
           ]
         },
         {
           "name": "Terrain",
           "className": "Terrain",
-          "guid": "9506"
+          "guid": "127454"
         }
       ]
     }
