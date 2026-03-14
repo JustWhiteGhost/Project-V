@@ -48,6 +48,8 @@ local Spring = {} do
 end
 
 CameraUtils.Spring = Spring
+local _springInstance = Spring.new(1, 0)
+export type Spring = typeof(_springInstance)
 
 -- map a value from one range to another
 function CameraUtils.map(x: number, inMin: number, inMax: number, outMin: number, outMax: number): number
@@ -305,5 +307,31 @@ function CameraUtils.restoreRotationType()
 	lastRotationTypeOverride = nil
 end
 
+function CameraUtils.ApplyRotationToVector(lookVector: Vector3, rotation: Vector3): Vector3
+	rotationVector = CFrame.fromEulerAnglesXYZ(rotation.X, rotation.Y, rotation.Z)
+	return rotationVector * lookVector
+end
+function CameraUtils.springToLookVector(spring: Spring, currentLook: Vector3, targetLookVector: Vector3, dt: number): Vector3
+	local dot = math.clamp(currentLook:Dot(targetLookVector), -1, 1)
+	local angle = math.acos(dot)
+
+	if angle < 1e-6 then
+		return targetLookVector
+	end
+
+	local axis = currentLook:Cross(targetLookVector)
+	local axisLength = axis.Magnitude
+
+	if axisLength < 1e-6 then
+		return targetLookVector
+	end
+
+	axis = axis / axisLength
+
+	spring.goal = angle
+	local dampedAngle = spring:step(dt)
+
+	return (CFrame.fromAxisAngle(axis, dampedAngle) * currentLook).Unit
+end
 return CameraUtils
 

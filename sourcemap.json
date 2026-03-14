@@ -3,91 +3,16 @@
   "className": "DataModel",
   "children": [
     {
-      "name": "Lighting",
-      "className": "Lighting",
-      "guid": "127400",
-      "children": [
-        {
-          "name": "Atmosphere",
-          "className": "Atmosphere",
-          "guid": "127381"
-        },
-        {
-          "name": "Bloom",
-          "className": "BloomEffect",
-          "guid": "127389"
-        },
-        {
-          "name": "DepthOfField",
-          "className": "DepthOfFieldEffect",
-          "guid": "127397"
-        },
-        {
-          "name": "Sky",
-          "className": "Sky",
-          "guid": "127447"
-        },
-        {
-          "name": "SunRays",
-          "className": "SunRaysEffect",
-          "guid": "127452"
-        }
-      ]
-    },
-    {
-      "name": "ReplicatedFirst",
-      "className": "ReplicatedFirst",
-      "guid": "127016"
-    },
-    {
-      "name": "ReplicatedStorage",
-      "className": "ReplicatedStorage",
-      "guid": "127142"
-    },
-    {
-      "name": "ServerScriptService",
-      "className": "ServerScriptService",
-      "guid": "127143"
-    },
-    {
-      "name": "ServerStorage",
-      "className": "ServerStorage",
-      "guid": "127144"
-    },
-    {
-      "name": "SoundService",
-      "className": "SoundService",
-      "guid": "126991"
-    },
-    {
-      "name": "StarterGui",
-      "className": "StarterGui",
-      "guid": "127092"
-    },
-    {
-      "name": "StarterPack",
-      "className": "StarterPack",
-      "guid": "127091"
-    },
-    {
       "name": "StarterPlayer",
       "className": "StarterPlayer",
-      "guid": "127090",
       "children": [
-        {
-          "name": "StarterCharacterScripts",
-          "className": "StarterCharacterScripts",
-          "guid": "127449"
-        },
         {
           "name": "StarterPlayerScripts",
           "className": "StarterPlayerScripts",
-          "guid": "127450",
           "children": [
             {
               "name": "PlayerModule",
               "className": "ModuleScript",
-              "guid": "127405",
               "filePaths": [
                 "sync/StarterPlayer/StarterPlayerScripts/PlayerModule.luau"
               ],
@@ -95,7 +20,6 @@
                 {
                   "name": "CameraModule",
                   "className": "ModuleScript",
-                  "guid": "127418",
                   "filePaths": [
                     "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule.luau"
                   ],
@@ -103,7 +27,6 @@
                     {
                       "name": "BaseCamera",
                       "className": "ModuleScript",
-                      "guid": "127422",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/BaseCamera.luau"
                       ]
@@ -111,23 +34,34 @@
                     {
                       "name": "BaseOcclusion",
                       "className": "ModuleScript",
-                      "guid": "127438",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/BaseOcclusion.luau"
                       ]
                     },
                     {
+                      "name": "CameraConfig",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraConfig.luau"
+                      ]
+                    },
+                    {
                       "name": "CameraInput",
                       "className": "ModuleScript",
-                      "guid": "127421",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraInput.luau"
                       ]
                     },
                     {
+                      "name": "CameraState",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraState.luau"
+                      ]
+                    },
+                    {
                       "name": "CameraToggleStateController",
                       "className": "ModuleScript",
-                      "guid": "127425",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraToggleStateController.luau"
                       ]
@@ -135,7 +69,6 @@
                     {
                       "name": "CameraUI",
                       "className": "ModuleScript",
-                      "guid": "127423",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraUI.luau"
                       ]
@@ -143,121 +76,76 @@
                     {
                       "name": "CameraUtils",
                       "className": "ModuleScript",
-                      "guid": "127426",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraUtils.luau"
                       ]
                     },
                     {
-                      "name": "ClassicCamera",
+                      "name": "CrosshairController",
                       "className": "ModuleScript",
-                      "guid": "127429",
                       "filePaths": [
-                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/ClassicCamera.luau"
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CrosshairController.luau"
+                      ]
+                    },
+                    {
+                      "name": "DampeningController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/DampeningController.luau"
+                      ]
+                    },
+                    {
+                      "name": "GenericCamera",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/GenericCamera.luau"
                       ]
                     },
                     {
                       "name": "Invisicam",
                       "className": "ModuleScript",
-                      "guid": "127419",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/Invisicam.luau"
                       ]
                     },
                     {
-                      "name": "LegacyCamera",
-                      "className": "ModuleScript",
-                      "guid": "127433",
-                      "filePaths": [
-                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/LegacyCamera.luau"
-                      ]
-                    },
-                    {
                       "name": "MouseLockController",
                       "className": "ModuleScript",
-                      "guid": "127434",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/MouseLockController.luau"
                       ]
                     },
                     {
-                      "name": "OrbitalCamera",
+                      "name": "OffsetController",
                       "className": "ModuleScript",
-                      "guid": "127435",
                       "filePaths": [
-                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/OrbitalCamera.luau"
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/OffsetController.luau"
                       ]
                     },
                     {
                       "name": "Poppercam",
                       "className": "ModuleScript",
-                      "guid": "127439",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/Poppercam.luau"
                       ]
                     },
                     {
+                      "name": "ShakeController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/ShakeController.luau"
+                      ]
+                    },
+                    {
                       "name": "TransparencyController",
                       "className": "ModuleScript",
-                      "guid": "127420",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/TransparencyController.luau"
                       ]
                     },
                     {
-                      "name": "VehicleCamera",
-                      "className": "ModuleScript",
-                      "guid": "127430",
-                      "filePaths": [
-                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/VehicleCamera.luau"
-                      ],
-                      "children": [
-                        {
-                          "name": "VehicleCameraConfig",
-                          "className": "ModuleScript",
-                          "guid": "127432",
-                          "filePaths": [
-                            "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/VehicleCamera/VehicleCameraConfig.luau"
-                          ]
-                        },
-                        {
-                          "name": "VehicleCameraCore",
-                          "className": "ModuleScript",
-                          "guid": "127431",
-                          "filePaths": [
-                            "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/VehicleCamera/VehicleCameraCore.luau"
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "name": "VRBaseCamera",
-                      "className": "ModuleScript",
-                      "guid": "127424",
-                      "filePaths": [
-                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/VRBaseCamera.luau"
-                      ]
-                    },
-                    {
-                      "name": "VRCamera",
-                      "className": "ModuleScript",
-                      "guid": "127436",
-                      "filePaths": [
-                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/VRCamera.luau"
-                      ]
-                    },
-                    {
-                      "name": "VRVehicleCamera",
-                      "className": "ModuleScript",
-                      "guid": "127437",
-                      "filePaths": [
-                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/VRVehicleCamera.luau"
-                      ]
-                    },
-                    {
                       "name": "ZoomController",
                       "className": "ModuleScript",
-                      "guid": "127427",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/ZoomController.luau"
                       ],
@@ -265,7 +153,6 @@
                         {
                           "name": "Popper",
                           "className": "ModuleScript",
-                          "guid": "127428",
                           "filePaths": [
                             "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/ZoomController/Popper.luau"
                           ]
@@ -277,12 +164,10 @@
                 {
                   "name": "CommonUtils",
                   "className": "Folder",
-                  "guid": "127398",
                   "children": [
                     {
                       "name": "CameraWrapper",
                       "className": "ModuleScript",
-                      "guid": "127441",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CommonUtils/CameraWrapper.luau"
                       ]
@@ -290,7 +175,6 @@
                     {
                       "name": "CharacterUtil",
                       "className": "ModuleScript",
-                      "guid": "127440",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CommonUtils/CharacterUtil.luau"
                       ]
@@ -298,7 +182,6 @@
                     {
                       "name": "ConnectionUtil",
                       "className": "ModuleScript",
-                      "guid": "127442",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CommonUtils/ConnectionUtil.luau"
                       ]
@@ -306,7 +189,6 @@
                     {
                       "name": "FlagUtil",
                       "className": "ModuleScript",
-                      "guid": "127443",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CommonUtils/FlagUtil.luau"
                       ]
@@ -316,7 +198,6 @@
                 {
                   "name": "ControlModule",
                   "className": "ModuleScript",
-                  "guid": "127406",
                   "filePaths": [
                     "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule.luau"
                   ],
@@ -324,7 +205,6 @@
                     {
                       "name": "BaseCharacterController",
                       "className": "ModuleScript",
-                      "guid": "127414",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/BaseCharacterController.luau"
                       ]
@@ -332,7 +212,6 @@
                     {
                       "name": "ClickToMoveController",
                       "className": "ModuleScript",
-                      "guid": "127417",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/ClickToMoveController.luau"
                       ]
@@ -340,7 +219,6 @@
                     {
                       "name": "ClickToMoveDisplay",
                       "className": "ModuleScript",
-                      "guid": "127412",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/ClickToMoveDisplay.luau"
                       ]
@@ -348,7 +226,6 @@
                     {
                       "name": "DynamicThumbstick",
                       "className": "ModuleScript",
-                      "guid": "127410",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/DynamicThumbstick.luau"
                       ]
@@ -356,7 +233,6 @@
                     {
                       "name": "Gamepad",
                       "className": "ModuleScript",
-                      "guid": "127408",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/Gamepad.luau"
                       ]
@@ -364,7 +240,6 @@
                     {
                       "name": "Keyboard",
                       "className": "ModuleScript",
-                      "guid": "127416",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/Keyboard.luau"
                       ]
@@ -372,7 +247,6 @@
                     {
                       "name": "PathDisplay",
                       "className": "ModuleScript",
-                      "guid": "127407",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/PathDisplay.luau"
                       ]
@@ -380,7 +254,6 @@
                     {
                       "name": "TouchJump",
                       "className": "ModuleScript",
-                      "guid": "127413",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/TouchJump.luau"
                       ]
@@ -388,7 +261,6 @@
                     {
                       "name": "TouchThumbstick",
                       "className": "ModuleScript",
-                      "guid": "127411",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/TouchThumbstick.luau"
                       ]
@@ -396,7 +268,6 @@
                     {
                       "name": "VehicleController",
                       "className": "ModuleScript",
-                      "guid": "127415",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/VehicleController.luau"
                       ]
@@ -404,7 +275,6 @@
                     {
                       "name": "VRNavigation",
                       "className": "ModuleScript",
-                      "guid": "127409",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/VRNavigation.luau"
                       ]
@@ -416,7 +286,6 @@
             {
               "name": "PlayerScriptsLoader",
               "className": "LocalScript",
-              "guid": "127401",
               "filePaths": [
                 "sync/StarterPlayer/StarterPlayerScripts/PlayerScriptsLoader.client.luau"
               ]
@@ -424,7 +293,6 @@
             {
               "name": "RbxCharacterSounds",
               "className": "LocalScript",
-              "guid": "127402",
               "filePaths": [
                 "sync/StarterPlayer/StarterPlayerScripts/RbxCharacterSounds.client.luau"
               ],
@@ -432,7 +300,6 @@
                 {
                   "name": "AtomicBinding",
                   "className": "ModuleScript",
-                  "guid": "127404",
                   "filePaths": [
                     "sync/StarterPlayer/StarterPlayerScripts/RbxCharacterSounds/AtomicBinding.luau"
                   ]
@@ -440,47 +307,6 @@
               ]
             }
           ]
-        }
-      ]
-    },
-    {
-      "name": "Workspace",
-      "className": "Workspace",
-      "guid": "126149",
-      "children": [
-        {
-          "name": "Baseplate",
-          "className": "Part",
-          "guid": "127445",
-          "children": [
-            {
-              "name": "Texture",
-              "className": "Texture",
-              "guid": "127456"
-            }
-          ]
-        },
-        {
-          "name": "Camera",
-          "className": "Camera",
-          "guid": "127391"
-        },
-        {
-          "name": "SpawnLocation",
-          "className": "SpawnLocation",
-          "guid": "127448",
-          "children": [
-            {
-              "name": "Decal",
-              "className": "Decal",
-              "guid": "127396"
-            }
-          ]
-        },
-        {
-          "name": "Terrain",
-          "className": "Terrain",
-          "guid": "127454"
         }
       ]
     }
