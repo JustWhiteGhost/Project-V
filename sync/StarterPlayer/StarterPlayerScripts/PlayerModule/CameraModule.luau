@@ -1,76 +1,61 @@
+--!strict
+-- CameraModule
+-- Orchestrates all camera systems and exposes the public developer API.
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local workspace = game:GetService("Workspace")
+
 local CameraModule = {}
 CameraModule.__index = CameraModule
-
--- NOTICE: Player property names do not all match their StarterPlayer equivalents,
--- with the differences noted in the comments on the right
-local PLAYER_CAMERA_PROPERTIES =
-{
-	"CameraMinZoomDistance",
-	"CameraMaxZoomDistance",
-	"CameraMode",
-	"DevCameraOcclusionMode",
-	"DevComputerCameraMode",			-- Corresponds to StarterPlayer.DevComputerCameraMovementMode
-	"DevTouchCameraMode",				-- Corresponds to StarterPlayer.DevTouchCameraMovementMode
-
-	-- Character movement mode
-	"DevComputerMovementMode",
-	"DevTouchMovementMode",
-	"DevEnableMouseLock",				-- Corresponds to StarterPlayer.EnableMouseLockOption
-}
-
-local USER_GAME_SETTINGS_PROPERTIES =
-{
-	"ComputerCameraMovementMode",
-	"ComputerMovementMode",
-	"ControlMode",
-	"GamepadCameraSensitivity",
-	"MouseSensitivity",
-	"RotationType",
-	"TouchCameraMovementMode",
-	"TouchMovementMode",
-}
-
---[[ Roblox Services ]]--
-local Players = game:GetService("Players")
 
 local CommonUtils = script.Parent:WaitForChild("CommonUtils")
 local ConnectionUtil = require(CommonUtils:WaitForChild("ConnectionUtil"))
 local FlagUtil = require(CommonUtils:WaitForChild("FlagUtil"))
 
--- Static camera utils
-local CameraInput = require(script:WaitForChild("CameraInput"))
+-- Core utils
 local CameraUtils = require(script:WaitForChild("CameraUtils"))
+local CameraInput = require(script:WaitForChild("CameraInput"))
 local CameraUI = require(script:WaitForChild("CameraUI"))
 local CameraToggleStateController = require(script:WaitForChild("CameraToggleStateController"))
 
-local TransparencyController = require(script:WaitForChild("TransparencyController"))
+-- Data
+local CameraConfig = require(script:WaitForChild("CameraConfig"))
+local CameraState = require(script:WaitForChild("CameraState"))
 
--- NewSystem Requires
+-- Systems
+local DampeningController = require(script:WaitForChild("DampeningController"))
+local ShakeController = require(script:WaitForChild("ShakeController"))
+local OffsetController = require(script:WaitForChild("OffsetController"))
+local ZoomController = require(script:WaitForChild("ZoomController"))
+local MouseLockController = require(script:WaitForChild("MouseLockController"))
+local CrosshairController = require(script:WaitForChild("CrosshairController"))
 local GenericCamera = require(script:WaitForChild("GenericCamera"))
 
--- Load Roblox Occlusion Modules
+-- Occlusion
 local Invisicam = require(script:WaitForChild("Invisicam"))
 local Poppercam = require(script:WaitForChild("Poppercam"))
+
+-- Transparency
+local TransparencyController = require(script:WaitForChild("TransparencyController"))
+
+local instantiatedOcclusionModules = {}
+
+local FFlagUserPlayerConnectionMemoryLeak = FlagUtil.getUserFlag("UserPlayerConnectionMemoryLeak")
 
 if not Players.LocalPlayer then
 	return {}
 end
 assert(Players.LocalPlayer, "Strict typing check")
 
--- Management of which options appear on the Roblox User Settings screen
 do
 	local PlayerScripts: PlayerScripts = Players.LocalPlayer:WaitForChild("PlayerScripts") :: PlayerScripts
-
 	PlayerScripts:RegisterTouchCameraMovementMode(Enum.TouchCameraMovementMode.Default)
 	PlayerScripts:RegisterTouchCameraMovementMode(Enum.TouchCameraMovementMode.Follow)
 	PlayerScripts:RegisterTouchCameraMovementMode(Enum.TouchCameraMovementMode.Classic)
-
 	PlayerScripts:RegisterComputerCameraMovementMode(Enum.ComputerCameraMovementMode.Default)
 end
 
-local FFlagUserPlayerConnectionMemoryLeak = FlagUtil.getUserFlag("UserPlayerConnectionMemoryLeak")
-
--- Change this later as types are added for more classes
 type Generic = any
 type GenericOptional = any?
 
@@ -86,35 +71,151 @@ type CameraModuleClass = {
 	OnPlayerAdded: (self: CameraModule, player: Player) -> (),
 	OnPlayerRemoving: (self: CameraModule, player: Player) -> (),
 	Update: (self: CameraModule, dt: number) -> (),
+	_updateSubject: (self: CameraModule) -> (),
+
+	-- Public API
+	AddCameraShake: (self: CameraModule, trauma: number) -> (),
+	AddNamedShake: (self: CameraModule, tag: string, trauma: number, decayRate: number?) -> (),
+	CancelShake: (self: CameraModule, tag: string) -> (),
+	SetCameraOffset: (self: CameraModule, name: string, offset: Vector3) -> (),
+	ClearCameraOffset: (self: CameraModule, name: string) -> (),
+	SetDampening: (self: CameraModule, posHz: number, rotHz: number) -> (),
+	SetDampeningEnabled: (self: CameraModule, enabled: boolean) -> (),
+	SetZoomBounds: (self: CameraModule, min: number, max: number) -> (),
+	SetZoom: (self: CameraModule, studs: number) -> (),
+	SetMouseLocked: (self: CameraModule, locked: boolean) -> (),
+	IsMouseLocked: (self: CameraModule) -> boolean,
+	SetCrosshairEnabled: (self: CameraModule, enabled: boolean) -> (),
+	SetCrosshairImage: (self: CameraModule, assetId: string) -> (),
+	SetCrosshairColor: (self: CameraModule, color: Color3) -> (),
+	SetCrosshairSize: (self: CameraModule, size: UDim2) -> (),
 }
 
 export type CameraModule = typeof(setmetatable({} :: {
-	activeCameraController: GenericOptional,
-	activeMouseLockController: GenericOptional,
 	activeOcclusionModule: GenericOptional,
 	activeTransparencyController: Generic,
 	cameraSubjectChangedConn: RBXScriptConnection?,
 	cameraTypeChangedConn: RBXScriptConnection?,
 	connectionUtil: ConnectionUtil.ConnectionUtil?,
-	currentComputerCameraMovementMode: Enum.ComputerCameraMovementMode? | Enum.DevComputerCameraMovementMode?,
 	occlusionMode: Enum.DevCameraOcclusionMode?,
+
+	-- Systems
+	genericCamera: any,
+	dampeningController: any,
+	shakeController: any,
+	offsetController: any,
+	zoomController: any,
+	mouseLockController: any,
+	crosshairController: any,
 }, {} :: CameraModuleClass))
 
 function CameraModule.new()
-	local self: CameraModule = setmetatable({},CameraModule)
+	local self: CameraModule = setmetatable({}, CameraModule)
 
-	self.activeCameraController = nil
-	self.activeTransparencyController = nil
 	self.activeOcclusionModule = nil
-	self.connectionUtil = nil
-	self.activeOcclusionModule = nil
-	self.activeMouseLockController = nil
-	self.currentComputerCameraMovementMode = nil
 	self.cameraSubjectChangedConn = nil
 	self.cameraTypeChangedConn = nil
+	self.occlusionMode = nil
 
-	-- New Systems
+	-- 1. Transparency
+	self.activeTransparencyController = TransparencyController.new()
+	self.activeTransparencyController:Enable(true)
+
+	-- 2. Connection util
+	self.connectionUtil = if FFlagUserPlayerConnectionMemoryLeak
+		then ConnectionUtil.new()
+		else nil
+
+	-- 3. Initialize systems in dependency order
+	self.zoomController = ZoomController.new()
+	self.offsetController = OffsetController.new()
+	self.dampeningController = DampeningController.new()
+	self.shakeController = ShakeController.new()
+	self.mouseLockController = MouseLockController.new()
+	self.crosshairController = CrosshairController.new()
+	self.genericCamera = GenericCamera.new(self.offsetController, self.zoomController)
+
+	-- 4. Enable camera input
+	CameraInput.setInputEnabled(true)
+
+	-- 5. React to mouse lock toggle
+	self.mouseLockController:GetBindableToggleEvent():Connect(function(isLocked: boolean)
+		self.offsetController:Update(isLocked)
+	end)
+
+	-- 6. Player connections
+	for _, player in pairs(Players:GetPlayers()) do
+		self:OnPlayerAdded(player)
+	end
+
+	Players.PlayerAdded:Connect(function(player)
+		self:OnPlayerAdded(player)
+	end)
+
+	if FFlagUserPlayerConnectionMemoryLeak then
+		Players.PlayerRemoving:Connect(function(player)
+			self:OnPlayerRemoving(player)
+		end)
+	end
+
+	-- 7. Occlusion
+	self:ActivateOcclusionModule(Players.LocalPlayer.DevCameraOcclusionMode)
+
+	Players.LocalPlayer:GetPropertyChangedSignal("DevCameraOcclusionMode"):Connect(function()
+		self:ActivateOcclusionModule(Players.LocalPlayer.DevCameraOcclusionMode)
+	end)
+
+	-- 8. Initial camera setup
+	self:OnCurrentCameraChanged()
+
+	-- 9. Bind render step
+	RunService:BindToRenderStep(
+		"CameraSystemUpdate",
+		Enum.RenderPriority.Camera.Value,
+		function(dt) self:Update(dt) end
+	)
+
+	-- 10. Watch for camera changes
+	workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(function()
+		self:OnCurrentCameraChanged()
+	end)
+
 	return self
+end
+
+-- Private: update CameraState.subject from current camera subject
+function CameraModule:_updateSubject()
+	local camera = workspace.CurrentCamera
+	if not camera then return end
+
+	local subject = camera.CameraSubject
+	if not subject then return end
+
+	local position: Vector3
+	local cframe: CFrame
+
+	if subject:IsA("Humanoid") then
+		local rootPart = subject.RootPart
+		if rootPart then
+			position = rootPart.Position + Vector3.new(0, 1.5, 0)
+			cframe = rootPart.CFrame
+		end
+	elseif subject:IsA("BasePart") then
+		position = subject.Position
+		cframe = subject.CFrame
+	elseif subject:IsA("Model") then
+		if subject.PrimaryPart then
+			position = subject.PrimaryPart.Position
+			cframe = subject.PrimaryPart.CFrame
+		end
+	end
+
+	if position then
+		CameraState.subject.Position = position
+	end
+	if cframe then
+		CameraState.subject.CFrame = cframe
+	end
 end
 
 function CameraModule:ActivateOcclusionModule(occlusionMode: Enum.DevCameraOcclusionMode)
@@ -130,8 +231,6 @@ function CameraModule:ActivateOcclusionModule(occlusionMode: Enum.DevCameraOcclu
 
 	self.occlusionMode = occlusionMode
 
-	-- First check to see if there is actually a change. If the module being requested is already
-	-- the currently-active solution then just make sure it's enabled and exit early
 	if self.activeOcclusionModule and self.activeOcclusionModule:GetOcclusionMode() == occlusionMode then
 		if not self.activeOcclusionModule:GetEnabled() then
 			self.activeOcclusionModule:Enable(true)
@@ -139,14 +238,9 @@ function CameraModule:ActivateOcclusionModule(occlusionMode: Enum.DevCameraOcclu
 		return
 	end
 
-	-- Save a reference to the current active module (may be nil) so that we can disable it if
-	-- we are successful in activating its replacement
 	local prevOcclusionModule = self.activeOcclusionModule
-
-	-- If there is no active module, see if the one we need has already been instantiated
 	self.activeOcclusionModule = instantiatedOcclusionModules[newModuleCreator]
 
-	-- If the module was not already instantiated and selected above, instantiate it
 	if not self.activeOcclusionModule then
 		self.activeOcclusionModule = newModuleCreator.new()
 		if self.activeOcclusionModule then
@@ -154,18 +248,12 @@ function CameraModule:ActivateOcclusionModule(occlusionMode: Enum.DevCameraOcclu
 		end
 	end
 
-	-- If we were successful in either selecting or instantiating the module,
-	-- enable it if it's not already the currently-active enabled module
 	if self.activeOcclusionModule then
-		local newModuleOcclusionMode = self.activeOcclusionModule:GetOcclusionMode()
-		-- Sanity check that the module we selected or instantiated actually supports the desired occlusionMode
-		if newModuleOcclusionMode ~= occlusionMode then
-			warn("CameraScript ActivateOcclusionModule mismatch: ",self.activeOcclusionModule:GetOcclusionMode(),"~=",occlusionMode)
+		if self.activeOcclusionModule:GetOcclusionMode() ~= occlusionMode then
+			warn("CameraScript ActivateOcclusionModule mismatch")
 		end
 
-		-- Deactivate current module if there is one
 		if prevOcclusionModule then
-			-- Sanity check that current module is not being replaced by itself (that should have been handled above)
 			if prevOcclusionModule ~= self.activeOcclusionModule then
 				prevOcclusionModule:Enable(false)
 			else
@@ -173,33 +261,29 @@ function CameraModule:ActivateOcclusionModule(occlusionMode: Enum.DevCameraOcclu
 			end
 		end
 
-		-- Occlusion modules need to be initialized with information about characters and cameraSubject
-		-- Invisicam needs the LocalPlayer's character
-		-- Poppercam needs all player characters and the camera subject
 		if occlusionMode == Enum.DevCameraOcclusionMode.Invisicam then
-			-- Optimization to only send Invisicam what we know it needs
 			if Players.LocalPlayer.Character then
-				self.activeOcclusionModule:CharacterAdded(Players.LocalPlayer.Character, Players.LocalPlayer )
+				self.activeOcclusionModule:CharacterAdded(Players.LocalPlayer.Character, Players.LocalPlayer)
 			end
 		else
-			-- When Poppercam is enabled, we send it all existing player characters for its raycast ignore list
 			for _, player in pairs(Players:GetPlayers()) do
 				if player and player.Character then
 					self.activeOcclusionModule:CharacterAdded(player.Character, player)
 				end
 			end
-			self.activeOcclusionModule:OnCameraSubjectChanged((game.Workspace.CurrentCamera :: Camera).CameraSubject)
+			self.activeOcclusionModule:OnCameraSubjectChanged((workspace.CurrentCamera :: Camera).CameraSubject)
 		end
 
-		-- Activate new choice
 		self.activeOcclusionModule:Enable(true)
 	end
 end
 
--- Note: The active transparency controller could be made to listen for this event itself.
 function CameraModule:OnCameraSubjectChanged()
 	local camera = workspace.CurrentCamera
 	local cameraSubject = if camera then camera.CameraSubject else nil
+
+	-- Update subject state first
+	self:_updateSubject()
 
 	if self.activeTransparencyController then
 		self.activeTransparencyController:SetSubject(cameraSubject)
@@ -210,9 +294,8 @@ function CameraModule:OnCameraSubjectChanged()
 	end
 end
 
--- Note: Called whenever workspace.CurrentCamera changes, but also on initialization of this script
 function CameraModule:OnCurrentCameraChanged()
-	local currentCamera = game.Workspace.CurrentCamera
+	local currentCamera = workspace.CurrentCamera
 	if not currentCamera then return end
 
 	if self.cameraSubjectChangedConn then
@@ -227,34 +310,64 @@ function CameraModule:OnCurrentCameraChanged()
 		self:OnCameraSubjectChanged()
 	end)
 
-
+	-- Reset camera on new camera instance
+	if self.genericCamera then
+		self.genericCamera:Reset()
+		self.dampeningController:Reset()
+	end
 
 	self:OnCameraSubjectChanged()
 end
 
-function CameraModule:Update(dt)
-	if self.activeCameraController then
-		self.activeCameraController:UpdateMouseBehavior()
+function CameraModule:Update(dt: number)
+	-- 1. Update subject
+	self:_updateSubject()
 
-		local newCameraCFrame, newCameraFocus = self.activeCameraController:Update(dt)
+	-- 2. Update offset based on mouse lock state
+	local isMouseLocked = self.mouseLockController:GetIsMouseLocked()
+	self.offsetController:Update(isMouseLocked)
 
-		if self.activeOcclusionModule then
-			newCameraCFrame, newCameraFocus = self.activeOcclusionModule:Update(dt, newCameraCFrame, newCameraFocus)
-		end
+	-- 3. Step generic camera (writes to CameraState.raw)
+	self.genericCamera:Update(dt)
 
-		-- Here is where the new CFrame and Focus are set for this render frame
-		local currentCamera = game.Workspace.CurrentCamera :: Camera
-		currentCamera.CFrame = newCameraCFrame
-		currentCamera.Focus = newCameraFocus
+	-- 4. Step dampening (writes to CameraState.dampened)
+	self.dampeningController:Update(dt)
 
-		-- Update to character local transparency as needed based on camera-to-subject distance
-		if self.activeTransparencyController then
-			self.activeTransparencyController:Update(dt)
-		end
+	-- 5. Step shake (writes to CameraState.shake)
+	self.shakeController:Update(dt)
 
-		if CameraInput.getInputEnabled() then
-			CameraInput.resetInputForFrameEnd()
-		end
+	-- 6. Assemble final CFrame
+	local pos = CameraState.dampened.cameraPosition + CameraState.shake.offset
+	local look = CameraUtils.ApplyRotationToVector(
+		CameraState.dampened.lookVector,
+		CameraState.shake.rotation
+	)
+
+	local finalCFrame = CFrame.lookAlong(pos, look)
+	local finalFocus = CFrame.new(CameraState.subject.Position)
+
+	-- 7. Occlusion
+	if self.activeOcclusionModule then
+		finalCFrame, finalFocus = self.activeOcclusionModule:Update(dt, finalCFrame, finalFocus)
+	end
+
+	-- 8. Apply to camera
+	local currentCamera = workspace.CurrentCamera :: Camera
+	currentCamera.CFrame = finalCFrame
+	currentCamera.Focus = finalFocus
+
+	-- 9. Transparency
+	if self.activeTransparencyController then
+		self.activeTransparencyController:Update(dt)
+	end
+
+	-- 10. Crosshair
+	local isFirstPerson = CameraState.zoom.inFirstPerson
+	self.crosshairController:Update(dt, isMouseLocked, isFirstPerson)
+
+	-- 11. Reset input for next frame
+	if CameraInput.getInputEnabled() then
+		CameraInput.resetInputForFrameEnd()
 	end
 end
 
@@ -264,7 +377,7 @@ function CameraModule:OnCharacterAdded(char: Model, player: Player)
 	end
 end
 
-function CameraModule:OnCharacterRemoving(char, player)
+function CameraModule:OnCharacterRemoving(char: Model, player: Player)
 	if self.activeOcclusionModule then
 		self.activeOcclusionModule:CharacterRemoving(char, player)
 	end
@@ -272,7 +385,6 @@ end
 
 function CameraModule:OnPlayerAdded(player: Player)
 	if FFlagUserPlayerConnectionMemoryLeak then
-		-- Return connectionUtil to non optional if FFlagUserPlayerConnectionMemoryLeak is removed
 		if self.connectionUtil then
 			self.connectionUtil:trackConnection(`{player.UserId}CharacterAdded`, player.CharacterAdded:Connect(function(char)
 				self:OnCharacterAdded(char, player)
@@ -292,12 +404,77 @@ function CameraModule:OnPlayerAdded(player: Player)
 end
 
 function CameraModule:OnPlayerRemoving(player: Player)
-	-- Return connectionUtil to non optional if FFlagUserPlayerConnectionMemoryLeak is removed
 	if self.connectionUtil then
 		self.connectionUtil:disconnect(`{player.UserId}CharacterAdded`)
 		self.connectionUtil:disconnect(`{player.UserId}CharacterRemoving`)
 	end
 end
+
+-- Public API
+
+function CameraModule:AddCameraShake(trauma: number)
+	self.shakeController:AddTrauma(trauma)
+end
+
+function CameraModule:AddNamedShake(tag: string, trauma: number, decayRate: number?)
+	self.shakeController:AddNamedShake(tag, trauma, decayRate)
+end
+
+function CameraModule:CancelShake(tag: string)
+	self.shakeController:CancelShake(tag)
+end
+
+function CameraModule:SetCameraOffset(name: string, offset: Vector3)
+	self.offsetController:SetOffset(name, offset)
+end
+
+function CameraModule:ClearCameraOffset(name: string)
+	self.offsetController:ClearOffset(name)
+end
+
+function CameraModule:SetDampening(posHz: number, rotHz: number)
+	self.dampeningController:SetFrequencies(posHz, rotHz)
+	CameraConfig.dampening.positionFrequency = posHz
+	CameraConfig.dampening.rotationFrequency = rotHz
+end
+
+function CameraModule:SetDampeningEnabled(enabled: boolean)
+	CameraConfig.dampening.enabled = enabled
+end
+
+function CameraModule:SetZoomBounds(min: number, max: number)
+	self.zoomController:SetBounds(min, max)
+end
+
+function CameraModule:SetZoom(studs: number)
+	self.zoomController:SetZoomParameters(studs, 0)
+	self.zoomController:ReleaseSpring()
+end
+
+function CameraModule:SetMouseLocked(locked: boolean)
+	self.mouseLockController:ForceMouseLock(locked)
+end
+
+function CameraModule:IsMouseLocked(): boolean
+	return self.mouseLockController:GetIsMouseLocked()
+end
+
+function CameraModule:SetCrosshairEnabled(enabled: boolean)
+	self.crosshairController:Enable(enabled)
+end
+
+function CameraModule:SetCrosshairImage(assetId: string)
+	self.crosshairController:SetImage(assetId)
+end
+
+function CameraModule:SetCrosshairColor(color: Color3)
+	self.crosshairController:SetColor(color)
+end
+
+function CameraModule:SetCrosshairSize(size: UDim2)
+	self.crosshairController:SetSize(size)
+end
+
 CameraModule.new()
 
 return {}

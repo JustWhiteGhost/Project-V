@@ -26,6 +26,7 @@ local CameraState = {
     },
     mouseLock = {
         isLocked = false,
+        offset = Vector3.new(),
     },
 }
 

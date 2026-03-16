@@ -308,7 +308,7 @@ function CameraUtils.restoreRotationType()
 end
 
 function CameraUtils.ApplyRotationToVector(lookVector: Vector3, rotation: Vector3): Vector3
-	rotationVector = CFrame.fromEulerAnglesXYZ(rotation.X, rotation.Y, rotation.Z)
+	local rotationVector = CFrame.fromEulerAnglesXYZ(rotation.X, rotation.Y, rotation.Z)
 	return rotationVector * lookVector
 end
 function CameraUtils.springToLookVector(spring: Spring, currentLook: Vector3, targetLookVector: Vector3, dt: number): Vector3

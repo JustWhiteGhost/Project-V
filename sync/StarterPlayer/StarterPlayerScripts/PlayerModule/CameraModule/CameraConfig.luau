@@ -10,11 +10,13 @@ local CameraConfig = {
         maxAngleRandians = math.rad(5),
         maxOffset = 0.5,
         frequency = 25,
+        decay = 1,
     },
     offset = {
         enabled = true,
         defaultOffset = Vector3.new(1.75, 0, 0),
-        AimOffset = Vector3.new(1.8, 0, 0),
+        aimOffset = Vector3.new(1.8, 0, 0),
+        mouseLockOffset = Vector3.new(1.75, 0, 0),
     },
     zoom = {
         defaultZoom = 12,
