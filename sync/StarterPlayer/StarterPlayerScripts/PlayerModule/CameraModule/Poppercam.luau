@@ -6,7 +6,6 @@
 local CommonUtils = script.Parent.Parent:WaitForChild("CommonUtils")
 local FlagUtil = require(CommonUtils:WaitForChild("FlagUtil"))
 
-local ZoomController =  require(script.Parent:WaitForChild("ZoomController"))
 local FFlagUserFixCameraFPError = FlagUtil.getUserFlag("UserFixCameraFPError")
 
 local TransformExtrapolator = {} do
@@ -90,7 +89,7 @@ function Poppercam:Enable(enable)
 	self.focusExtrapolator:Reset()
 end
 
-function Poppercam:Update(renderDt, desiredCameraCFrame, desiredCameraFocus, cameraController)
+function Poppercam:Update(renderDt, desiredCameraCFrame, desiredCameraFocus, zoomController)
 	local rotatedFocus = nil
 	if FFlagUserFixCameraFPError then
 		rotatedFocus = CFrame.lookAlong(desiredCameraFocus.p, -desiredCameraCFrame.LookVector)*CFrame.new(
@@ -109,10 +108,9 @@ function Poppercam:Update(renderDt, desiredCameraCFrame, desiredCameraFocus, cam
 	end
 
 	local extrapolation = self.focusExtrapolator:Step(renderDt, rotatedFocus)
-	local zoom = ZoomController.Update(renderDt, rotatedFocus, extrapolation)
+	local zoom = zoomController:Update(renderDt, rotatedFocus, extrapolation)
 	return rotatedFocus*CFrame.new(0, 0, zoom), desiredCameraFocus
 end
-
 -- Called when character is added
 function Poppercam:CharacterAdded(character, player)
 end

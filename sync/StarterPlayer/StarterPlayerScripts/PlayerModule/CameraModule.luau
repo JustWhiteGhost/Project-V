@@ -91,27 +91,39 @@ type CameraModuleClass = {
 	SetCrosshairSize: (self: CameraModule, size: UDim2) -> (),
 }
 
-export type CameraModule = typeof(setmetatable({} :: {
-	activeOcclusionModule: GenericOptional,
-	activeTransparencyController: Generic,
-	cameraSubjectChangedConn: RBXScriptConnection?,
-	cameraTypeChangedConn: RBXScriptConnection?,
-	connectionUtil: ConnectionUtil.ConnectionUtil?,
-	occlusionMode: Enum.DevCameraOcclusionMode?,
+export type CameraModule = typeof(setmetatable(
+	{} :: {
+		activeOcclusionModule: GenericOptional,
+		activeTransparencyController: Generic,
+		cameraSubjectChangedConn: RBXScriptConnection?,
+		cameraTypeChangedConn: RBXScriptConnection?,
+		connectionUtil: ConnectionUtil.ConnectionUtil?,
+		occlusionMode: Enum.DevCameraOcclusionMode?,
 
-	-- Systems
-	genericCamera: any,
-	dampeningController: any,
-	shakeController: any,
-	offsetController: any,
-	zoomController: any,
-	mouseLockController: any,
-	crosshairController: any,
-}, {} :: CameraModuleClass))
+		-- Systems
+		genericCamera: any,
+		dampeningController: any,
+		shakeController: any,
+		offsetController: any,
+		zoomController: any,
+		mouseLockController: any,
+		crosshairController: any,
+	},
+	{} :: CameraModuleClass
+))
 
 function CameraModule.new()
 	local self: CameraModule = setmetatable({}, CameraModule)
-
+	self.mouseLockController = MouseLockController.new()
+	print("Initiated:", self.mouseLockController)
+	local ok, result = pcall(function()
+		return MouseLockController.new()
+	end)
+	print("pcall result:", ok, result)
+	if ok then
+		self.mouseLockController = result
+		print("methods:", self.mouseLockController:IsMouseLocked())
+	end
 	self.activeOcclusionModule = nil
 	self.cameraSubjectChangedConn = nil
 	self.cameraTypeChangedConn = nil
@@ -122,17 +134,16 @@ function CameraModule.new()
 	self.activeTransparencyController:Enable(true)
 
 	-- 2. Connection util
-	self.connectionUtil = if FFlagUserPlayerConnectionMemoryLeak
-		then ConnectionUtil.new()
-		else nil
+	self.connectionUtil = if FFlagUserPlayerConnectionMemoryLeak then ConnectionUtil.new() else nil
 
 	-- 3. Initialize systems in dependency order
 	self.zoomController = ZoomController.new()
 	self.offsetController = OffsetController.new()
 	self.dampeningController = DampeningController.new()
 	self.shakeController = ShakeController.new()
-	self.mouseLockController = MouseLockController.new()
 	self.crosshairController = CrosshairController.new()
+	print("zoomController instance:", self.zoomController)
+	print("zoomController.firstPersonChanged:", self.zoomController.firstPersonChanged)
 	self.genericCamera = GenericCamera.new(self.offsetController, self.zoomController)
 
 	-- 4. Enable camera input
@@ -169,11 +180,9 @@ function CameraModule.new()
 	self:OnCurrentCameraChanged()
 
 	-- 9. Bind render step
-	RunService:BindToRenderStep(
-		"CameraSystemUpdate",
-		Enum.RenderPriority.Camera.Value,
-		function(dt) self:Update(dt) end
-	)
+	RunService:BindToRenderStep("CameraSystemUpdate", Enum.RenderPriority.Camera.Value, function(dt)
+		self:Update(dt)
+	end)
 
 	-- 10. Watch for camera changes
 	workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(function()
@@ -186,10 +195,14 @@ end
 -- Private: update CameraState.subject from current camera subject
 function CameraModule:_updateSubject()
 	local camera = workspace.CurrentCamera
-	if not camera then return end
+	if not camera then
+		return
+	end
 
 	local subject = camera.CameraSubject
-	if not subject then return end
+	if not subject then
+		return
+	end
 
 	local position: Vector3
 	local cframe: CFrame
@@ -296,7 +309,9 @@ end
 
 function CameraModule:OnCurrentCameraChanged()
 	local currentCamera = workspace.CurrentCamera
-	if not currentCamera then return end
+	if not currentCamera then
+		return
+	end
 
 	if self.cameraSubjectChangedConn then
 		self.cameraSubjectChangedConn:Disconnect()
@@ -324,7 +339,7 @@ function CameraModule:Update(dt: number)
 	self:_updateSubject()
 
 	-- 2. Update offset based on mouse lock state
-	local isMouseLocked = self.mouseLockController:GetIsMouseLocked()
+	local isMouseLocked = self.mouseLockController:IsMouseLocked()
 	self.offsetController:Update(isMouseLocked)
 
 	-- 3. Step generic camera (writes to CameraState.raw)
@@ -338,17 +353,19 @@ function CameraModule:Update(dt: number)
 
 	-- 6. Assemble final CFrame
 	local pos = CameraState.dampened.cameraPosition + CameraState.shake.offset
-	local look = CameraUtils.ApplyRotationToVector(
-		CameraState.dampened.lookVector,
-		CameraState.shake.rotation
-	)
+	local look = CameraUtils.ApplyRotationToVector(CameraState.dampened.lookVector, CameraState.shake.rotation)
+
+	local worldOffset = CFrame.lookAlong(
+    CameraState.subject.Position, 
+    CameraState.dampened.lookVector
+):VectorToWorldSpace(CameraState.offset.total)
 
 	local finalCFrame = CFrame.lookAlong(pos, look)
-	local finalFocus = CFrame.new(CameraState.subject.Position)
+	local finalFocus = CFrame.new(CameraState.subject.Position + worldOffset)
 
 	-- 7. Occlusion
 	if self.activeOcclusionModule then
-		finalCFrame, finalFocus = self.activeOcclusionModule:Update(dt, finalCFrame, finalFocus)
+		finalCFrame, finalFocus = self.activeOcclusionModule:Update(dt, finalCFrame, finalFocus, self.zoomController)
 	end
 
 	-- 8. Apply to camera
@@ -386,12 +403,18 @@ end
 function CameraModule:OnPlayerAdded(player: Player)
 	if FFlagUserPlayerConnectionMemoryLeak then
 		if self.connectionUtil then
-			self.connectionUtil:trackConnection(`{player.UserId}CharacterAdded`, player.CharacterAdded:Connect(function(char)
-				self:OnCharacterAdded(char, player)
-			end))
-			self.connectionUtil:trackConnection(`{player.UserId}CharacterRemoving`, player.CharacterRemoving:Connect(function(char)
-				self:OnCharacterRemoving(char, player)
-			end))
+			self.connectionUtil:trackConnection(
+				`{player.UserId}CharacterAdded`,
+				player.CharacterAdded:Connect(function(char)
+					self:OnCharacterAdded(char, player)
+				end)
+			)
+			self.connectionUtil:trackConnection(
+				`{player.UserId}CharacterRemoving`,
+				player.CharacterRemoving:Connect(function(char)
+					self:OnCharacterRemoving(char, player)
+				end)
+			)
 		end
 	else
 		player.CharacterAdded:Connect(function(char)
@@ -456,7 +479,7 @@ function CameraModule:SetMouseLocked(locked: boolean)
 end
 
 function CameraModule:IsMouseLocked(): boolean
-	return self.mouseLockController:GetIsMouseLocked()
+	return self.mouseLockController:IsMouseLocked()
 end
 
 function CameraModule:SetCrosshairEnabled(enabled: boolean)

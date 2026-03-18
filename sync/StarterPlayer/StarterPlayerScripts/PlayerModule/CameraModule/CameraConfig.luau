@@ -14,8 +14,8 @@ local CameraConfig = {
     },
     offset = {
         enabled = true,
-        defaultOffset = Vector3.new(1.75, 0, 0),
-        aimOffset = Vector3.new(1.8, 0, 0),
+        defaultOffset = Vector3.new(0, 0, 0),
+        aimOffset = Vector3.new(1.3, 0, 0),
         mouseLockOffset = Vector3.new(1.75, 0, 0),
     },
     zoom = {
@@ -37,7 +37,7 @@ local CameraConfig = {
             Enum.KeyCode.RightShift,
             Enum.KeyCode.LeftShift,
         },
-        cursonImage = "rbxassetid://1234567890", -- Placeholder asset ID for cursor image
+        cursorImage = "rbxassetid://316279305", -- Placeholder asset ID for cursor image
     },
 }
 

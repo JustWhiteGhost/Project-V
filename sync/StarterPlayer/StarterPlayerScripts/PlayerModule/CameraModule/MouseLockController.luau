@@ -34,7 +34,7 @@ function MouseLockController.new()
 	Players.LocalPlayer:GetPropertyChangedSignal("DevComputerMovementMode"):Connect(function()
 		self:UpdateAvailablity()
 	end)
-	Players.LocalPlayer:GetPropertyChangedSignal("PrefferedInput"):Connect(function()
+	UserInputService:GetPropertyChangedSignal("PreferredInput"):Connect(function()
 		self:UpdateAvailablity()
 	end)
 
@@ -66,10 +66,14 @@ function MouseLockController:SetIsLocked(isLocked: boolean)
 	if self._isMouseLocked == isLocked then return end
 	self._isMouseLocked = isLocked
 	if isLocked then
-		CameraUtils.setMouseIconOverride(CameraConfig.mouseLock.cursonImage)
+		CameraUtils.setMouseIconOverride(CameraConfig.mouseLock.cursorImage)
+		CameraUtils.setMouseBehaviorOverride(Enum.MouseBehavior.LockCenter)
+		CameraUtils.setRotationTypeOverride(Enum.RotationType.CameraRelative)
 		CameraState.mouseLock.offset = CameraConfig.offset.mouseLockOffset
 	else
 		CameraUtils.restoreMouseIcon()
+		CameraUtils.restoreMouseBehavior()
+		CameraUtils.restoreRotationType()
 		CameraState.mouseLock.offset = Vector3.zero
 	end
 
@@ -79,6 +83,7 @@ end
 
 function MouseLockController:Toggle()
 	if(not self._enabled) then return end
+	print("Toggling mouse lock")
 	self:SetIsLocked(not self._isMouseLocked)
 end
 
@@ -95,13 +100,15 @@ function MouseLockController:UpdateAvailablity()
 
 	local devAllowsMouseLock = Player.DevEnableMouseLock
 	local devMovementScriptable = Player.DevComputerMovementMode == Enum.DevComputerMovementMode.Scriptable
-	local userHasMouseLockEnabled = GameSettings.ControlMode == Enum.ControlMode.MouseLockSwitch
 	local userHasClickToMove = GameSettings.ComputerMovementMode == Enum.ComputerMovementMode.ClickToMove
 	local usingKeyboardAndMouse = UserInputService.PreferredInput == Enum.PreferredInput.KeyboardAndMouse
 
-	local available = usingKeyboardAndMouse and devAllowsMouseLock and userHasMouseLockEnabled and not devMovementScriptable and not userHasClickToMove
-	if available == self._enabled then return end
+	local available = usingKeyboardAndMouse 
+    and devAllowsMouseLock 
+    and not devMovementScriptable 
+    and not userHasClickToMove
 
+	if available == self._enabled then return end
 	self._enabled = available
 	if available then
 		self:_BindKeys()
@@ -120,7 +127,7 @@ function MouseLockController:IsMouseLocked(): boolean
 	return self._isMouseLocked and self._enabled
 end
 
-function MouseLockController:GetBindableEvent(): RBXScriptSignal
+function MouseLockController:GetBindableToggleEvent(): RBXScriptSignal
 	return self.toggleEvent.Event
 end
 return MouseLockController

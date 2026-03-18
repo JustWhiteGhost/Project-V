@@ -15,23 +15,23 @@ local min = math.min
 local pi = math.pi
 local exp = math.exp
 
-local ConstrianedSpring = {}
+local ConstrainedSpring = {}
 do
-	ConstrianedSpring.__index = ConstrianedSpring
+	ConstrainedSpring.__index = ConstrainedSpring
 
-	function ConstrianedSpring.new(freq: number, x: number, minValue: number, maxValue: number)
-		x = clamp(x, minValue, maxValue)
-		return setmetatable({
-			freq = freq,
-			goal = x,
-			pos = x,
-			vel = 0,
-			minValue = minValue,
-			maxValue = maxValue,
-		}, ConstrianedSpring)
-	end
+	function ConstrainedSpring.new(freq, x, minValue, maxValue)
+    x = clamp(x, minValue, maxValue)
+    return setmetatable({
+        freq = freq,
+        x = x,      -- confirm this line exists
+        vel = 0,
+        minValue = minValue,
+        maxValue = maxValue,
+        goal = x,
+    }, ConstrainedSpring)
+end
 
-	function ConstrianedSpring:Step(dt: number)
+	function ConstrainedSpring:Step(dt: number)
 		local freq = self.freq * 2 * pi
 		local x: number = self.x
 		local v: number = self.vel
@@ -74,7 +74,7 @@ do
 
 	export type ZoomController = typeof(setmetatable(
 		{} :: {
-			_spring: typeof(ConstrianedSpring.new(0, 0, 0, 0)),
+			_spring: typeof(ConstrainedSpring.new(0, 0, 0, 0)),
 			_zoomDelta: number,
 			_inFirstPerson: boolean,
 			_cameraMinZoom: number,
@@ -85,26 +85,28 @@ do
 	))
 
 	function ZoomController.new()
+		print("ZoomController.new() called")
 		local self = setmetatable({}, ZoomController)
 
-		self._CameraMinZoom = Players.LocalPlayer.CameraMinZoomDistance
-		self._CameraMaxZoom = Players.LocalPlayer.CameraMaxZoomDistance
+		self._cameraMinZoom = Players.LocalPlayer.CameraMinZoomDistance
+		self._cameraMaxZoom = Players.LocalPlayer.CameraMaxZoomDistance
 		self._zoomDelta = 0
 		self._inFirstPerson = false
 
-		self._sprint = ConstrianedSpring.new(
+		self._spring = ConstrainedSpring.new(
 			ZOOM_STIFFNESS,
 			CameraConfig.zoom.defaultZoom,
 			MIN_FOCUS_DISTANCE,
-			self._CameraMaxZoom
+			self._cameraMaxZoom
 		)
-		self.firstpersonChanged = Instance.new("BindableEvent")
+		self.firstPersonChanged = Instance.new("BindableEvent")
+		print("Event Created")
 
 		Players.LocalPlayer:GetPropertyChangedSignal("CameraMinZoomDistance"):Connect(function(...)
-			self._CameraMinZoom = Players.LocalPlayer.CameraMinZoomDistance
+			self._cameraMinZoom = Players.LocalPlayer.CameraMinZoomDistance
 		end)
 		Players.LocalPlayer:GetPropertyChangedSignal("CameraMaxZoomDistance"):Connect(function(...)
-			self._CameraMaxZoom = Players.LocalPlayer.CameraMaxZoomDistance
+			self._cameraMaxZoom = Players.LocalPlayer.CameraMaxZoomDistance
 		end)
 		CameraState.zoom.currentZoom = CameraConfig.zoom.defaultZoom
 		CameraState.zoom.target = CameraConfig.zoom.defaultZoom
@@ -114,7 +116,7 @@ do
 	end
 
 	function ZoomController:SetZoomParameters(targetZoom: number, delta: number)
-		self._sprint.goal = targetZoom
+		self._spring.goal = targetZoom
 		self._zoomDelta = delta
 		CameraState.zoom.target = targetZoom
 	end

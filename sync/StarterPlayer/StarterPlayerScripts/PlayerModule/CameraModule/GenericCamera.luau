@@ -14,18 +14,20 @@ local tweenMaxSpeed = math.rad(250)
 
 local GenericCamera = {}
 GenericCamera.__index = GenericCamera
-export type GenericCamera = typeof(setmetatable({} :: {
-	_offsetController: any,
-	_zoomController: any,
-	_lastUpdate: number,
-	_lastSubjectCFrame: CFrame?,
-	_lastCameraTransform: CFrame?,
-	_resetCameraAngle: boolean,
-	_inFirstPerson: boolean,
-	_currentLookVector: Vector3,
-	_lastUserPanCamera: number,
-}, {} :: typeof(GenericCamera)))
-
+export type GenericCamera = typeof(setmetatable(
+	{} :: {
+		_offsetController: any,
+		_zoomController: any,
+		_lastUpdate: number,
+		_lastSubjectCFrame: CFrame?,
+		_lastCameraTransform: CFrame?,
+		_resetCameraAngle: boolean,
+		_inFirstPerson: boolean,
+		_currentLookVector: Vector3,
+		_lastUserPanCamera: number,
+	},
+	{} :: typeof(GenericCamera)
+))
 
 function GenericCamera.new(offsetController: any, zoomController: any)
 	local self = setmetatable({}, GenericCamera)
@@ -72,16 +74,9 @@ function GenericCamera:_leaveFirstPerson()
 	CameraState.zoom.inFirstPerson = false
 end
 
-function GenericCamera:_calculateNewLookVector(
-	currentLook: Vector3,
-	rotateInput: Vector2
-): Vector3
+function GenericCamera:_calculateNewLookVector(currentLook: Vector3, rotateInput: Vector2): Vector3
 	local currPitchAngle = math.asin(math.clamp(currentLook.Y, -1, 1))
-	local yTheta = math.clamp(
-		rotateInput.Y,
-		-MAX_Y + currPitchAngle,
-		-MIN_Y + currPitchAngle
-	)
+	local yTheta = math.clamp(rotateInput.Y, -MAX_Y + currPitchAngle, -MIN_Y + currPitchAngle)
 	local constrainedInput = Vector2.new(rotateInput.X, yTheta)
 	local startCFrame = CFrame.new(Vector3.zero, currentLook)
 	local newLookCFrame = CFrame.Angles(0, -constrainedInput.X, 0)
@@ -93,10 +88,14 @@ end
 function GenericCamera:Update(dt: number)
 	local now = tick()
 	local camera = workspace.CurrentCamera
-	if not camera then return end
+	if not camera then
+		return
+	end
 
 	local player = Players.LocalPlayer
-	if not player then return end
+	if not player then
+		return
+	end
 
 	-- Reset camera angle on respawn
 	local overrideLookVector: Vector3? = nil
@@ -188,7 +187,13 @@ function GenericCamera:Update(dt: number)
 		self._currentLookVector = newLookVector
 
 		local zoom = self._zoomController:GetZoomRadius()
-		local focusPosition = offsetSubjectPosition
+
+		-- focus is subject position shifted by offset in world space
+		local cameraCFrame = CFrame.lookAlong(subjectPosition, newLookVector)
+		local worldOffset = cameraCFrame:VectorToWorldSpace(totalOffset)
+		local focusPosition = subjectPosition + worldOffset
+
+		-- camera sits behind the focus point
 		local cameraPosition = focusPosition - newLookVector * zoom
 
 		self._lastCameraTransform = CFrame.lookAlong(cameraPosition, newLookVector)

@@ -109,13 +109,6 @@
                       ]
                     },
                     {
-                      "name": "MouseLockController",
-                      "className": "ModuleScript",
-                      "filePaths": [
-                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/MouseLockController.luau"
-                      ]
-                    },
-                    {
                       "name": "OffsetController",
                       "className": "ModuleScript",
                       "filePaths": [
@@ -302,6 +295,685 @@
                   "className": "ModuleScript",
                   "filePaths": [
                     "sync/StarterPlayer/StarterPlayerScripts/RbxCharacterSounds/AtomicBinding.luau"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "StarterPlayer",
+      "className": "StarterPlayer",
+      "children": [
+        {
+          "name": "StarterPlayerScripts",
+          "className": "StarterPlayerScripts",
+          "children": [
+            {
+              "name": "PlayerModule",
+              "className": "ModuleScript",
+              "children": [
+                {
+                  "name": "CameraModule",
+                  "className": "ModuleScript",
+                  "filePaths": [
+                    "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule.luau"
+                  ],
+                  "children": [
+                    {
+                      "name": "BaseCamera",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/BaseCamera.luau"
+                      ]
+                    },
+                    {
+                      "name": "BaseOcclusion",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/BaseOcclusion.luau"
+                      ]
+                    },
+                    {
+                      "name": "CameraConfig",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraConfig.luau"
+                      ]
+                    },
+                    {
+                      "name": "CameraInput",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraInput.luau"
+                      ]
+                    },
+                    {
+                      "name": "CameraState",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraState.luau"
+                      ]
+                    },
+                    {
+                      "name": "CameraToggleStateController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraToggleStateController.luau"
+                      ]
+                    },
+                    {
+                      "name": "CameraUI",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraUI.luau"
+                      ]
+                    },
+                    {
+                      "name": "CameraUtils",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraUtils.luau"
+                      ]
+                    },
+                    {
+                      "name": "CrosshairController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CrosshairController.luau"
+                      ]
+                    },
+                    {
+                      "name": "DampeningController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/DampeningController.luau"
+                      ]
+                    },
+                    {
+                      "name": "GenericCamera",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/GenericCamera.luau"
+                      ]
+                    },
+                    {
+                      "name": "Invisicam",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/Invisicam.luau"
+                      ]
+                    },
+                    {
+                      "name": "MK12",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/MK12.luau"
+                      ]
+                    },
+                    {
+                      "name": "OffsetController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/OffsetController.luau"
+                      ]
+                    },
+                    {
+                      "name": "Poppercam",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/Poppercam.luau"
+                      ]
+                    },
+                    {
+                      "name": "ShakeController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/ShakeController.luau"
+                      ]
+                    },
+                    {
+                      "name": "TransparencyController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/TransparencyController.luau"
+                      ]
+                    },
+                    {
+                      "name": "ZoomController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/ZoomController.luau"
+                      ],
+                      "children": [
+                        {
+                          "name": "Popper",
+                          "className": "ModuleScript",
+                          "filePaths": [
+                            "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/ZoomController/Popper.luau"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "StarterPlayer",
+      "className": "StarterPlayer",
+      "children": [
+        {
+          "name": "StarterPlayerScripts",
+          "className": "StarterPlayerScripts",
+          "children": [
+            {
+              "name": "PlayerModule",
+              "className": "ModuleScript",
+              "children": [
+                {
+                  "name": "CameraModule",
+                  "className": "ModuleScript",
+                  "filePaths": [
+                    "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule.luau"
+                  ],
+                  "children": [
+                    {
+                      "name": "BaseCamera",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/BaseCamera.luau"
+                      ]
+                    },
+                    {
+                      "name": "BaseOcclusion",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/BaseOcclusion.luau"
+                      ]
+                    },
+                    {
+                      "name": "CameraConfig",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraConfig.luau"
+                      ]
+                    },
+                    {
+                      "name": "CameraInput",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraInput.luau"
+                      ]
+                    },
+                    {
+                      "name": "CameraState",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraState.luau"
+                      ]
+                    },
+                    {
+                      "name": "CameraToggleStateController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraToggleStateController.luau"
+                      ]
+                    },
+                    {
+                      "name": "CameraUI",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraUI.luau"
+                      ]
+                    },
+                    {
+                      "name": "CameraUtils",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraUtils.luau"
+                      ]
+                    },
+                    {
+                      "name": "CrosshairController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CrosshairController.luau"
+                      ]
+                    },
+                    {
+                      "name": "DampeningController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/DampeningController.luau"
+                      ]
+                    },
+                    {
+                      "name": "GenericCamera",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/GenericCamera.luau"
+                      ]
+                    },
+                    {
+                      "name": "Invisicam",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/Invisicam.luau"
+                      ]
+                    },
+                    {
+                      "name": "MK12",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/MK12.luau"
+                      ]
+                    },
+                    {
+                      "name": "OffsetController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/OffsetController.luau"
+                      ]
+                    },
+                    {
+                      "name": "Poppercam",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/Poppercam.luau"
+                      ]
+                    },
+                    {
+                      "name": "ShakeController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/ShakeController.luau"
+                      ]
+                    },
+                    {
+                      "name": "TransparencyController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/TransparencyController.luau"
+                      ]
+                    },
+                    {
+                      "name": "ZoomController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/ZoomController.luau"
+                      ],
+                      "children": [
+                        {
+                          "name": "Popper",
+                          "className": "ModuleScript",
+                          "filePaths": [
+                            "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/ZoomController/Popper.luau"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "StarterPlayer",
+      "className": "StarterPlayer",
+      "children": [
+        {
+          "name": "StarterPlayerScripts",
+          "className": "StarterPlayerScripts",
+          "children": [
+            {
+              "name": "PlayerModule",
+              "className": "ModuleScript",
+              "children": [
+                {
+                  "name": "CameraModule",
+                  "className": "ModuleScript",
+                  "children": [
+                    {
+                      "name": "MouseLockController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/MouseLockController.luau"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "StarterPlayer",
+      "className": "StarterPlayer",
+      "children": [
+        {
+          "name": "StarterPlayerScripts",
+          "className": "StarterPlayerScripts",
+          "children": [
+            {
+              "name": "PlayerModule",
+              "className": "ModuleScript",
+              "children": [
+                {
+                  "name": "CameraModule",
+                  "className": "ModuleScript",
+                  "filePaths": [
+                    "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule.luau"
+                  ],
+                  "children": [
+                    {
+                      "name": "BaseCamera",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/BaseCamera.luau"
+                      ]
+                    },
+                    {
+                      "name": "BaseOcclusion",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/BaseOcclusion.luau"
+                      ]
+                    },
+                    {
+                      "name": "CameraConfig",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraConfig.luau"
+                      ]
+                    },
+                    {
+                      "name": "CameraInput",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraInput.luau"
+                      ]
+                    },
+                    {
+                      "name": "CameraState",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraState.luau"
+                      ]
+                    },
+                    {
+                      "name": "CameraToggleStateController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraToggleStateController.luau"
+                      ]
+                    },
+                    {
+                      "name": "CameraUI",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraUI.luau"
+                      ]
+                    },
+                    {
+                      "name": "CameraUtils",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraUtils.luau"
+                      ]
+                    },
+                    {
+                      "name": "CrosshairController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CrosshairController.luau"
+                      ]
+                    },
+                    {
+                      "name": "DampeningController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/DampeningController.luau"
+                      ]
+                    },
+                    {
+                      "name": "GenericCamera",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/GenericCamera.luau"
+                      ]
+                    },
+                    {
+                      "name": "Invisicam",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/Invisicam.luau"
+                      ]
+                    },
+                    {
+                      "name": "MouseLockController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/MouseLockController.luau"
+                      ]
+                    },
+                    {
+                      "name": "OffsetController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/OffsetController.luau"
+                      ]
+                    },
+                    {
+                      "name": "Poppercam",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/Poppercam.luau"
+                      ]
+                    },
+                    {
+                      "name": "ShakeController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/ShakeController.luau"
+                      ]
+                    },
+                    {
+                      "name": "TransparencyController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/TransparencyController.luau"
+                      ]
+                    },
+                    {
+                      "name": "ZoomController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/ZoomController.luau"
+                      ],
+                      "children": [
+                        {
+                          "name": "Popper",
+                          "className": "ModuleScript",
+                          "filePaths": [
+                            "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/ZoomController/Popper.luau"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "StarterPlayer",
+      "className": "StarterPlayer",
+      "children": [
+        {
+          "name": "StarterPlayerScripts",
+          "className": "StarterPlayerScripts",
+          "children": [
+            {
+              "name": "PlayerModule",
+              "className": "ModuleScript",
+              "children": [
+                {
+                  "name": "CameraModule",
+                  "className": "ModuleScript",
+                  "filePaths": [
+                    "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule.luau"
+                  ],
+                  "children": [
+                    {
+                      "name": "BaseCamera",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/BaseCamera.luau"
+                      ]
+                    },
+                    {
+                      "name": "BaseOcclusion",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/BaseOcclusion.luau"
+                      ]
+                    },
+                    {
+                      "name": "CameraConfig",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraConfig.luau"
+                      ]
+                    },
+                    {
+                      "name": "CameraInput",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraInput.luau"
+                      ]
+                    },
+                    {
+                      "name": "CameraState",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraState.luau"
+                      ]
+                    },
+                    {
+                      "name": "CameraToggleStateController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraToggleStateController.luau"
+                      ]
+                    },
+                    {
+                      "name": "CameraUI",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraUI.luau"
+                      ]
+                    },
+                    {
+                      "name": "CameraUtils",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraUtils.luau"
+                      ]
+                    },
+                    {
+                      "name": "CrosshairController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CrosshairController.luau"
+                      ]
+                    },
+                    {
+                      "name": "DampeningController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/DampeningController.luau"
+                      ]
+                    },
+                    {
+                      "name": "GenericCamera",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/GenericCamera.luau"
+                      ]
+                    },
+                    {
+                      "name": "Invisicam",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/Invisicam.luau"
+                      ]
+                    },
+                    {
+                      "name": "MouseLockController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/MouseLockController.luau"
+                      ]
+                    },
+                    {
+                      "name": "OffsetController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/OffsetController.luau"
+                      ]
+                    },
+                    {
+                      "name": "Poppercam",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/Poppercam.luau"
+                      ]
+                    },
+                    {
+                      "name": "ShakeController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/ShakeController.luau"
+                      ]
+                    },
+                    {
+                      "name": "TransparencyController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/TransparencyController.luau"
+                      ]
+                    },
+                    {
+                      "name": "ZoomController",
+                      "className": "ModuleScript",
+                      "filePaths": [
+                        "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/ZoomController.luau"
+                      ],
+                      "children": [
+                        {
+                          "name": "Popper",
+                          "className": "ModuleScript",
+                          "filePaths": [
+                            "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/ZoomController/Popper.luau"
+                          ]
+                        }
+                      ]
+                    }
                   ]
                 }
               ]

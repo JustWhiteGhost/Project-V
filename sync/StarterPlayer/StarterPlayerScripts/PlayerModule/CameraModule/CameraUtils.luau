@@ -312,6 +312,9 @@ function CameraUtils.ApplyRotationToVector(lookVector: Vector3, rotation: Vector
 	return rotationVector * lookVector
 end
 function CameraUtils.springToLookVector(spring: Spring, currentLook: Vector3, targetLookVector: Vector3, dt: number): Vector3
+	if not currentLook or not targetLookVector then
+        return targetLookVector or currentLook or Vector3.new(0, 0, -1)
+    end
 	local dot = math.clamp(currentLook:Dot(targetLookVector), -1, 1)
 	local angle = math.acos(dot)
 

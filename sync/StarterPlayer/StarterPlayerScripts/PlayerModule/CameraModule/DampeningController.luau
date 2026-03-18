@@ -1,4 +1,5 @@
 local CameraConfig = require(script.Parent.CameraConfig)
+local CameraInput = require(script.Parent.CameraInput)
 local CameraState = require(script.Parent.CameraState)
 local CameraUtils = require(script.Parent.CameraUtils)
 
@@ -34,22 +35,42 @@ function DampeningController:Reset()
     self._lookRotation = CameraState.raw.lookVector
 end
 
-function DampeningController:Update(dt: number)
+function DampeningController:Update(dt: number): (Vector3, Vector3)
     if not CameraConfig.dampening.enabled then
         CameraState.dampened.cameraPosition = CameraState.raw.cameraPosition
         CameraState.dampened.lookVector = CameraState.raw.lookVector
         return CameraState.raw.cameraPosition, CameraState.raw.lookVector
     end
-    self._positionSpring.pos = CameraState.raw.cameraPosition
-    local dampenedPosition = self._positionSpring:step(dt)
+    
+    if not CameraState.raw.lookVector or not CameraState.raw.cameraPosition then
+    CameraState.dampened.cameraPosition = CameraState.raw.cameraPosition or Vector3.zero
+    CameraState.dampened.lookVector = CameraState.raw.lookVector or Vector3.new(0, 0, -1)
+    return CameraState.dampened.cameraPosition, CameraState.dampened.lookVector
+end
+    -- snap position spring to target when actively rotating
+    local rotateInput = CameraInput.getRotation(dt)
+    if rotateInput.Magnitude > 0.01 then
+        self._positionSpring.pos = CameraState.raw.cameraPosition
+        self._positionSpring.vel = Vector3.zero
+    end
 
-    local dampenedLook = CameraUtils.springToLookVector(self._rotationSpring, self._lookRotation, CameraState.raw.lookVector, dt)
-    self._lookRotation = dampenedLook
+    -- Step position spring
+    self._positionSpring.goal = CameraState.raw.cameraPosition
+    local dampedPosition = self._positionSpring:step(dt)
 
-    CameraState.dampened.cameraPosition = dampenedPosition
-    CameraState.dampened.lookVector = dampenedLook
+    -- Step rotation spring
+    local dampedLook = CameraUtils.springToLookVector(
+        self._rotationSpring,
+        self._lastLookVector,
+        CameraState.raw.lookVector,
+        dt
+    )
+    self._lastLookVector = dampedLook
 
-    return dampenedPosition, dampenedLook
+    CameraState.dampened.cameraPosition = dampedPosition
+    CameraState.dampened.lookVector = dampedLook
+
+    return dampedPosition, dampedLook
 end
 
 return DampeningController
