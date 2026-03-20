@@ -1,4 +1,4 @@
---!strict
+--!nonstrict
 -- CameraModule
 -- Orchestrates all camera systems and exposes the public developer API.
 
@@ -31,6 +31,7 @@ local ZoomController = require(script:WaitForChild("ZoomController"))
 local MouseLockController = require(script:WaitForChild("MouseLockController"))
 local CrosshairController = require(script:WaitForChild("CrosshairController"))
 local GenericCamera = require(script:WaitForChild("GenericCamera"))
+local HeadTrackingController = require(script:WaitForChild("HeadTrackingController"))
 
 -- Occlusion
 local Invisicam = require(script:WaitForChild("Invisicam"))
@@ -58,6 +59,7 @@ end
 
 type Generic = any
 type GenericOptional = any?
+type HeadTrackingControllerType = any
 
 type CameraModuleClass = {
 	__index: CameraModuleClass,
@@ -76,6 +78,7 @@ type CameraModuleClass = {
 	-- Public API
 	AddCameraShake: (self: CameraModule, trauma: number) -> (),
 	AddNamedShake: (self: CameraModule, tag: string, trauma: number, decayRate: number?) -> (),
+	AddExplosionShake: (self: CameraModule, explosionPosition: Vector3, maxTrauma: number, radius: number, decayRate: number?, tag: string?, pushMagnitude: number?, pushDecayRate: number?) -> (),
 	CancelShake: (self: CameraModule, tag: string) -> (),
 	SetCameraOffset: (self: CameraModule, name: string, offset: Vector3) -> (),
 	ClearCameraOffset: (self: CameraModule, name: string) -> (),
@@ -83,6 +86,7 @@ type CameraModuleClass = {
 	SetDampeningEnabled: (self: CameraModule, enabled: boolean) -> (),
 	SetZoomBounds: (self: CameraModule, min: number, max: number) -> (),
 	SetZoom: (self: CameraModule, studs: number) -> (),
+	SetFirstPersonEnabled: (self: CameraModule, enabled: boolean) -> (),
 	SetMouseLocked: (self: CameraModule, locked: boolean) -> (),
 	IsMouseLocked: (self: CameraModule) -> boolean,
 	SetCrosshairEnabled: (self: CameraModule, enabled: boolean) -> (),
@@ -99,6 +103,7 @@ export type CameraModule = typeof(setmetatable(
 		cameraTypeChangedConn: RBXScriptConnection?,
 		connectionUtil: ConnectionUtil.ConnectionUtil?,
 		occlusionMode: Enum.DevCameraOcclusionMode?,
+		headTrackingController: HeadTrackingControllerType?,
 
 		-- Systems
 		genericCamera: any,
@@ -115,20 +120,10 @@ export type CameraModule = typeof(setmetatable(
 function CameraModule.new()
 	local self: CameraModule = setmetatable({}, CameraModule)
 	self.mouseLockController = MouseLockController.new()
-	print("Initiated:", self.mouseLockController)
-	local ok, result = pcall(function()
-		return MouseLockController.new()
-	end)
-	print("pcall result:", ok, result)
-	if ok then
-		self.mouseLockController = result
-		print("methods:", self.mouseLockController:IsMouseLocked())
-	end
 	self.activeOcclusionModule = nil
 	self.cameraSubjectChangedConn = nil
 	self.cameraTypeChangedConn = nil
 	self.occlusionMode = nil
-
 	-- 1. Transparency
 	self.activeTransparencyController = TransparencyController.new()
 	self.activeTransparencyController:Enable(true)
@@ -142,8 +137,7 @@ function CameraModule.new()
 	self.dampeningController = DampeningController.new()
 	self.shakeController = ShakeController.new()
 	self.crosshairController = CrosshairController.new()
-	print("zoomController instance:", self.zoomController)
-	print("zoomController.firstPersonChanged:", self.zoomController.firstPersonChanged)
+	self.headTrackingController = HeadTrackingController.new()
 	self.genericCamera = GenericCamera.new(self.offsetController, self.zoomController)
 
 	-- 4. Enable camera input
@@ -338,17 +332,30 @@ function CameraModule:Update(dt: number)
 	-- 1. Update subject
 	self:_updateSubject()
 
+	-- Keep mouse lock forced while first-person mode is active.
+	self.mouseLockController:ForceMouseLock(CameraState.zoom.inFirstPerson)
+
 	-- 2. Update offset based on mouse lock state
 	local isMouseLocked = self.mouseLockController:IsMouseLocked()
 	self.offsetController:Update(isMouseLocked)
 
-	-- 3. Step generic camera (writes to CameraState.raw)
+	-- 2.5. Apply smooth offset transitions each frame
+	self.offsetController:SmoothUpdate(dt)
+
+	-- 3. Step zoom from input before camera placement
+	local zoomDelta = CameraInput.getZoomDelta() * math.max(CameraConfig.input.zoomSensitivity, 0)
+	if math.abs(zoomDelta) > 0 then
+		self.zoomController:SetZoomParameters(CameraState.zoom.target, zoomDelta)
+	end
+	self.zoomController:Update(dt, CFrame.new(CameraState.subject.Position), nil)
+
+	-- 4. Step generic camera (writes to CameraState.raw)
 	self.genericCamera:Update(dt)
 
-	-- 4. Step dampening (writes to CameraState.dampened)
+	-- 5. Step dampening (writes to CameraState.dampened)
 	self.dampeningController:Update(dt)
 
-	-- 5. Step shake (writes to CameraState.shake)
+	-- 6. Step shake (writes to CameraState.shake)
 	self.shakeController:Update(dt)
 
 	-- 6. Assemble final CFrame
@@ -381,6 +388,8 @@ function CameraModule:Update(dt: number)
 	-- 10. Crosshair
 	local isFirstPerson = CameraState.zoom.inFirstPerson
 	self.crosshairController:Update(dt, isMouseLocked, isFirstPerson)
+
+	self.headTrackingController:Update(dt, CameraState.zoom.inFirstPerson)
 
 	-- 11. Reset input for next frame
 	if CameraInput.getInputEnabled() then
@@ -443,6 +452,51 @@ function CameraModule:AddNamedShake(tag: string, trauma: number, decayRate: numb
 	self.shakeController:AddNamedShake(tag, trauma, decayRate)
 end
 
+function CameraModule:AddExplosionShake(
+	explosionPosition: Vector3,
+	maxTrauma: number,
+	radius: number,
+	decayRate: number?,
+	tag: string?,
+	pushMagnitude: number?,
+	pushDecayRate: number?
+)
+	if radius <= 0 then
+		return
+	end
+
+	local cameraPos = (workspace.CurrentCamera and workspace.CurrentCamera.CFrame.Position)
+		or CameraState.subject.Position
+	local distance = (cameraPos - explosionPosition).Magnitude
+
+	if distance >= radius then
+		return
+	end
+
+	local falloff = 1 - (distance / radius)
+	local trauma = math.max(0, maxTrauma * falloff)
+	if trauma <= 0 then
+		return
+	end
+
+	local shakeTag = tag or `explosion_{math.floor(explosionPosition.X)}_{math.floor(explosionPosition.Y)}_{math.floor(explosionPosition.Z)}_{os.clock()}`
+	self.shakeController:AddNamedShake(shakeTag, trauma, decayRate)
+
+	local blastDirection: Vector3
+	if distance > 1e-6 then
+		blastDirection = (cameraPos - explosionPosition).Unit
+	else
+		blastDirection = (workspace.CurrentCamera and workspace.CurrentCamera.CFrame.LookVector) or Vector3.new(0, 0, -1)
+	end
+
+	local defaultPushMagnitude = 1.25
+	local defaultPushDecay = 12
+	local push = math.max(0, (pushMagnitude or defaultPushMagnitude) * falloff)
+	if push > 0 then
+		self.shakeController:AddDirectionalImpulse(blastDirection, push, pushDecayRate or defaultPushDecay)
+	end
+end
+
 function CameraModule:CancelShake(tag: string)
 	self.shakeController:CancelShake(tag)
 end
@@ -474,12 +528,41 @@ function CameraModule:SetZoom(studs: number)
 	self.zoomController:ReleaseSpring()
 end
 
+function CameraModule:SetFirstPersonEnabled(enabled: boolean)
+	self.zoomController:SetFirstPersonEnabled(enabled)
+	self.mouseLockController:ForceMouseLock(enabled)
+end
+
 function CameraModule:SetMouseLocked(locked: boolean)
 	self.mouseLockController:ForceMouseLock(locked)
 end
 
+function CameraModule:SetMouseSensitivity(sensitivity: number)
+	CameraConfig.input.mouseSensitivity = math.clamp(sensitivity, 0, 10)
+end
+
+function CameraModule:GetMouseSensitivity(): number
+	return CameraConfig.input.mouseSensitivity
+end
+
+function CameraModule:SetZoomSensitivity(sensitivity: number)
+	CameraConfig.input.zoomSensitivity = math.clamp(sensitivity, 0, 10)
+end
+
+function CameraModule:GetZoomSensitivity(): number
+	return CameraConfig.input.zoomSensitivity
+end
+
 function CameraModule:IsMouseLocked(): boolean
 	return self.mouseLockController:IsMouseLocked()
+end
+
+function CameraModule:SetOffsetSmoothTransition(frequency: number)
+	CameraConfig.offset.smoothTransitionFreq = math.clamp(frequency, 0, 20)
+end
+
+function CameraModule:GetOffsetSmoothTransition(): number
+	return CameraConfig.offset.smoothTransitionFreq
 end
 
 function CameraModule:SetCrosshairEnabled(enabled: boolean)
@@ -498,6 +581,6 @@ function CameraModule:SetCrosshairSize(size: UDim2)
 	self.crosshairController:SetSize(size)
 end
 
-CameraModule.new()
+local cameraModule = CameraModule.new()
 
-return {}
+return cameraModule

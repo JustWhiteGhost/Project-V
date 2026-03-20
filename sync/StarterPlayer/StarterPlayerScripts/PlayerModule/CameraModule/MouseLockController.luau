@@ -68,12 +68,10 @@ function MouseLockController:SetIsLocked(isLocked: boolean)
 	if isLocked then
 		CameraUtils.setMouseIconOverride(CameraConfig.mouseLock.cursorImage)
 		CameraUtils.setMouseBehaviorOverride(Enum.MouseBehavior.LockCenter)
-		CameraUtils.setRotationTypeOverride(Enum.RotationType.CameraRelative)
 		CameraState.mouseLock.offset = CameraConfig.offset.mouseLockOffset
 	else
 		CameraUtils.restoreMouseIcon()
 		CameraUtils.restoreMouseBehavior()
-		CameraUtils.restoreRotationType()
 		CameraState.mouseLock.offset = Vector3.zero
 	end
 
@@ -89,8 +87,12 @@ end
 
 function MouseLockController:ForceMouseLock(enabled: boolean)
 	self._forceMouseLock = enabled
-	if self._enabled then
-		self:SetIsLocked(enabled)
+	if enabled then
+		self:SetIsLocked(true)
+	else
+		if not self._enabled then
+			self:SetIsLocked(false)
+		end
 	end
 end
 
@@ -117,14 +119,18 @@ function MouseLockController:UpdateAvailablity()
 		end
 	else
 		self:_UnbindKeys()
-		if self._isMouseLocked then
+		if self._isMouseLocked and not self._forceMouseLock then
 			self:SetIsLocked(false)
 		end
+	end
+
+	if self._forceMouseLock and not self._isMouseLocked then
+		self:SetIsLocked(true)
 	end
 end
 
 function MouseLockController:IsMouseLocked(): boolean
-	return self._isMouseLocked and self._enabled
+	return self._isMouseLocked and (self._enabled or self._forceMouseLock)
 end
 
 function MouseLockController:GetBindableToggleEvent(): RBXScriptSignal

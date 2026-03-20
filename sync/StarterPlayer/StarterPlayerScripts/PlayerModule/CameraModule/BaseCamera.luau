@@ -622,7 +622,7 @@ function BaseCamera:SetCameraToSubjectDistance(desiredSubjectDistance: number): 
 	end
 
 	-- Pass target distance and zoom direction to the zoom controller
-	ZoomController.SetZoomParameters(self.currentSubjectDistance, math.sign(desiredSubjectDistance - lastSubjectDistance))
+	--ZoomController.SetZoomParameters(self.currentSubjectDistance, math.sign(desiredSubjectDistance - lastSubjectDistance))
 
 	-- Returned only for convenience to the caller to know the outcome
 	return self.currentSubjectDistance

@@ -6,6 +6,7 @@ local RunService = game:GetService("RunService")
 local UserGameSettings = UserSettings():GetService("UserGameSettings")
 local VRService = game:GetService("VRService")
 local GuiService = game:GetService("GuiService")
+local CameraConfig = require(script.Parent.CameraConfig)
 
 local CommonUtils = script.Parent.Parent:WaitForChild("CommonUtils")
 local FlagUtil = require(CommonUtils:WaitForChild("FlagUtil"))
@@ -175,6 +176,7 @@ do
 	
 	function CameraInput.getRotation(dt, disableKeyboardRotation: boolean?): Vector2
 		local inversionVector = Vector2.new(1, UserGameSettings:GetCameraYInvertValue())
+		local mouseSensitivity = math.max(CameraConfig.input.mouseSensitivity, 0)
 
 		-- keyboard input is non-coalesced, so must account for time delta
 		local kKeyboard = Vector2.new(keyboardState.Right - keyboardState.Left, 0) * dt
@@ -191,8 +193,8 @@ do
 		local result =
 			kKeyboard*ROTATION_SPEED_KEYS +
 			kGamepad*ROTATION_SPEED_GAMEPAD +
-			kMouse*ROTATION_SPEED_MOUSE +
-			kPointerAction*ROTATION_SPEED_POINTERACTION +
+			kMouse*ROTATION_SPEED_MOUSE*mouseSensitivity +
+			kPointerAction*ROTATION_SPEED_POINTERACTION*mouseSensitivity +
 			kTouch*ROTATION_SPEED_TOUCH
 
 		return result*inversionVector
@@ -382,6 +384,8 @@ do
 
 			elseif input.UserInputType == Enum.UserInputType.MouseMovement then
 				mouseMovement(input)
+			elseif input.UserInputType == Enum.UserInputType.MouseWheel and not sunk then
+				mouseState.Wheel = input.Position.Z
 			end
 		end
 

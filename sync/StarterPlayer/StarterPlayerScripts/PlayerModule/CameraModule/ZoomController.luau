@@ -79,19 +79,21 @@ do
 			_inFirstPerson: boolean,
 			_cameraMinZoom: number,
 			_cameraMaxZoom: number,
-			firstpersonChanged: BindableEvent,
+			firstPersonChanged: BindableEvent,
 		},
 		{} :: ZoomController
 	))
 
 	function ZoomController.new()
-		print("ZoomController.new() called")
 		local self = setmetatable({}, ZoomController)
 
-		self._cameraMinZoom = Players.LocalPlayer.CameraMinZoomDistance
-		self._cameraMaxZoom = Players.LocalPlayer.CameraMaxZoomDistance
+		self._cameraMinZoom = CameraConfig.zoom.minZoom
+		self._cameraMaxZoom = CameraConfig.zoom.maxZoom
 		self._zoomDelta = 0
 		self._inFirstPerson = false
+
+		Players.LocalPlayer.CameraMinZoomDistance = self._cameraMinZoom
+		Players.LocalPlayer.CameraMaxZoomDistance = self._cameraMaxZoom
 
 		self._spring = ConstrainedSpring.new(
 			ZOOM_STIFFNESS,
@@ -100,14 +102,22 @@ do
 			self._cameraMaxZoom
 		)
 		self.firstPersonChanged = Instance.new("BindableEvent")
-		print("Event Created")
 
-		Players.LocalPlayer:GetPropertyChangedSignal("CameraMinZoomDistance"):Connect(function(...)
-			self._cameraMinZoom = Players.LocalPlayer.CameraMinZoomDistance
+		Players.LocalPlayer:GetPropertyChangedSignal("CameraMinZoomDistance"):Connect(function()
+			local clamped = clamp(Players.LocalPlayer.CameraMinZoomDistance, CameraConfig.zoom.minZoom, CameraConfig.zoom.maxZoom)
+			if clamped ~= Players.LocalPlayer.CameraMinZoomDistance then
+				Players.LocalPlayer.CameraMinZoomDistance = clamped
+			end
+			self._cameraMinZoom = clamped
 		end)
-		Players.LocalPlayer:GetPropertyChangedSignal("CameraMaxZoomDistance"):Connect(function(...)
-			self._cameraMaxZoom = Players.LocalPlayer.CameraMaxZoomDistance
+		Players.LocalPlayer:GetPropertyChangedSignal("CameraMaxZoomDistance"):Connect(function()
+			local clamped = clamp(Players.LocalPlayer.CameraMaxZoomDistance, CameraConfig.zoom.minZoom, CameraConfig.zoom.maxZoom)
+			if clamped ~= Players.LocalPlayer.CameraMaxZoomDistance then
+				Players.LocalPlayer.CameraMaxZoomDistance = clamped
+			end
+			self._cameraMaxZoom = clamped
 		end)
+
 		CameraState.zoom.currentZoom = CameraConfig.zoom.defaultZoom
 		CameraState.zoom.target = CameraConfig.zoom.defaultZoom
 		CameraState.zoom.inFirstPerson = false
@@ -116,9 +126,9 @@ do
 	end
 
 	function ZoomController:SetZoomParameters(targetZoom: number, delta: number)
-		self._spring.goal = targetZoom
+		self._spring.goal = clamp(targetZoom, self._cameraMinZoom, self._cameraMaxZoom)
 		self._zoomDelta = delta
-		CameraState.zoom.target = targetZoom
+		CameraState.zoom.target = self._spring.goal
 	end
 
 	function ZoomController:GetZoomRadius(): number
@@ -130,8 +140,26 @@ do
 		self._spring.maxValue = maxZoom
 		self._cameraMinZoom = minZoom
 		self._cameraMaxZoom = maxZoom
+		CameraConfig.zoom.minZoom = minZoom
+		CameraConfig.zoom.maxZoom = maxZoom
+		Players.LocalPlayer.CameraMinZoomDistance = minZoom
+		Players.LocalPlayer.CameraMaxZoomDistance = maxZoom
 		self._spring.x = clamp(self._spring.x, minZoom, maxZoom)
 		self._spring.goal = clamp(self._spring.goal, minZoom, maxZoom)
+	end
+
+	function ZoomController:SetFirstPersonEnabled(enabled: boolean)
+		if self._inFirstPerson == enabled then
+			return
+		end
+
+		self._inFirstPerson = enabled
+		CameraState.zoom.inFirstPerson = enabled
+		self.firstPersonChanged:Fire(enabled)
+	end
+
+	function ZoomController:IsFirstPersonEnabled(): boolean
+		return self._inFirstPerson
 	end
 
 	function ZoomController:ReleaseSpring()
@@ -140,30 +168,26 @@ do
 	end
 
 	function ZoomController:Update(dt: number, focusCframe: CFrame, Extrapolation: any)
-		local PoppedCam = math.huge
+		if self._zoomDelta ~= 0 then
+			self._spring.goal = stepTargetZoom(self._spring.goal, self._zoomDelta, self._cameraMinZoom, self._cameraMaxZoom)
+			self._zoomDelta = 0
+			CameraState.zoom.target = self._spring.goal
+		end
+
+		local poppedCam = math.huge
 		if self._spring.goal > DIST_OPAQUE then
-			local maxPossibleZoom = max(
-				self._spring.x,
-				stepTargetZoom(self._spring.goal, self._zoomDelta, self._cameraMinZoom, self._cameraMaxZoom)
-			)
-			PoppedCam = Popper(
+			local maxPossibleZoom = max(self._spring.x, self._spring.goal)
+			poppedCam = Popper(
 				focusCframe * CFrame.new(0, 0, MIN_FOCUS_DISTANCE),
 				maxPossibleZoom - MIN_FOCUS_DISTANCE,
 				Extrapolation
 			) + MIN_FOCUS_DISTANCE
 		end
 		self._spring.minValue = MIN_FOCUS_DISTANCE
-		self._spring.maxValue = min(self._cameraMaxZoom, PoppedCam)
+		self._spring.maxValue = min(self._cameraMaxZoom, poppedCam)
 
 		local currentZoom = self._spring:Step(dt)
-
-		local wasInFirstPerson = self._inFirstPerson
-		local nowInFirstPerson = currentZoom < CameraConfig.zoom.firstPersonThreshold
-
-		if nowInFirstPerson ~= wasInFirstPerson then
-			self._inFirstPerson = nowInFirstPerson
-			self.firstpersonChanged:Fire(nowInFirstPerson)
-		end
+		local nowInFirstPerson = self._inFirstPerson
 
 		if nowInFirstPerson then
 			currentZoom = 0

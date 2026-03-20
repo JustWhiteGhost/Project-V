@@ -319,6 +319,9 @@ function CameraUtils.springToLookVector(spring: Spring, currentLook: Vector3, ta
 	local angle = math.acos(dot)
 
 	if angle < 1e-6 then
+		spring.goal = 0
+		spring.pos = 0
+		spring.vel = 0
 		return targetLookVector
 	end
 
@@ -326,6 +329,9 @@ function CameraUtils.springToLookVector(spring: Spring, currentLook: Vector3, ta
 	local axisLength = axis.Magnitude
 
 	if axisLength < 1e-6 then
+		spring.goal = 0
+		spring.pos = 0
+		spring.vel = 0
 		return targetLookVector
 	end
 

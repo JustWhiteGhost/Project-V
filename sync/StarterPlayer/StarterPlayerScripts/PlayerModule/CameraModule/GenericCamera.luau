@@ -65,12 +65,14 @@ end
 function GenericCamera:_enterFirstPerson()
 	self._inFirstPerson = true
 	self._offsetController:SetOffset("firstPerson", Vector3.zero)
+	self._offsetController:SetEnabled(false)
 	CameraState.zoom.inFirstPerson = true
 end
 
 function GenericCamera:_leaveFirstPerson()
 	self._inFirstPerson = false
 	self._offsetController:ClearOffset("firstPerson")
+	self._offsetController:SetEnabled(true)
 	CameraState.zoom.inFirstPerson = false
 end
 
@@ -166,18 +168,20 @@ function GenericCamera:Update(dt: number)
 
 	-- First person handling
 	if self._inFirstPerson then
-		local character = player.Character
-		local rootPart = character and character:FindFirstChild("HumanoidRootPart") :: BasePart?
-		if rootPart then
-			local _, yaw, _ = rootPart.CFrame:ToEulerAnglesYXZ()
-			local pitch = math.asin(math.clamp(currentLook.Y, -1, 1))
-			currentLook = CFrame.fromEulerAnglesYXZ(pitch, yaw, 0).LookVector
-		end
-
 		local newLookVector = self:_calculateNewLookVector(currentLook, rotateInput)
 		self._currentLookVector = newLookVector
 
-		local focusPosition = offsetSubjectPosition
+		local character = player.Character
+		local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+		local rootPart = character and character:FindFirstChild("HumanoidRootPart") :: BasePart?
+		if rootPart and humanoid and not humanoid.Sit then
+			local flatLook = Vector3.new(newLookVector.X, 0, newLookVector.Z)
+			if flatLook.Magnitude > 0.001 then
+				rootPart.CFrame = CFrame.new(rootPart.Position) * CFrame.lookAlong(Vector3.zero, flatLook.Unit)
+			end
+		end
+
+		local focusPosition = subjectPosition
 		local cameraPosition = focusPosition - newLookVector * 0.5
 
 		CameraState.raw.cameraPosition = cameraPosition
@@ -188,15 +192,15 @@ function GenericCamera:Update(dt: number)
 
 		local zoom = self._zoomController:GetZoomRadius()
 
-		-- focus is subject position shifted by offset in world space
-		local cameraCFrame = CFrame.lookAlong(subjectPosition, newLookVector)
-		local worldOffset = cameraCFrame:VectorToWorldSpace(totalOffset)
-		local focusPosition = subjectPosition + worldOffset
+local pivot = subjectPosition + Vector3.new(0, 1.5, 0)
 
-		-- camera sits behind the focus point
-		local cameraPosition = focusPosition - newLookVector * zoom
+local cameraCFrame = CFrame.lookAlong(pivot, newLookVector)
+local worldOffset = cameraCFrame:VectorToWorldSpace(totalOffset)
 
-		self._lastCameraTransform = CFrame.lookAlong(cameraPosition, newLookVector)
+local cameraPosition = pivot + worldOffset
+local focusPosition = pivot
+
+		self._lastCameraTransform = CFrame.lookAt(cameraPosition, focusPosition)
 
 		CameraState.raw.cameraPosition = cameraPosition
 		CameraState.raw.lookVector = newLookVector
