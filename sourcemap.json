@@ -3,16 +3,242 @@
   "className": "DataModel",
   "children": [
     {
+      "name": "Lighting",
+      "className": "Lighting",
+      "guid": "134897",
+      "children": [
+        {
+          "name": "Atmosphere",
+          "className": "Atmosphere",
+          "guid": "134876"
+        },
+        {
+          "name": "Bloom",
+          "className": "BloomEffect",
+          "guid": "134885"
+        },
+        {
+          "name": "DepthOfField",
+          "className": "DepthOfFieldEffect",
+          "guid": "134894"
+        },
+        {
+          "name": "Sky",
+          "className": "Sky",
+          "guid": "134949"
+        },
+        {
+          "name": "SunRays",
+          "className": "SunRaysEffect",
+          "guid": "134962"
+        }
+      ]
+    },
+    {
+      "name": "ReplicatedFirst",
+      "className": "ReplicatedFirst",
+      "guid": "134256"
+    },
+    {
+      "name": "ReplicatedStorage",
+      "className": "ReplicatedStorage",
+      "guid": "134321"
+    },
+    {
+      "name": "ServerScriptService",
+      "className": "ServerScriptService",
+      "guid": "134322"
+    },
+    {
+      "name": "ServerStorage",
+      "className": "ServerStorage",
+      "guid": "134323"
+    },
+    {
+      "name": "SoundService",
+      "className": "SoundService",
+      "guid": "134231"
+    },
+    {
+      "name": "StarterGui",
+      "className": "StarterGui",
+      "guid": "134270",
+      "children": [
+        {
+          "name": "ScreenGui",
+          "className": "ScreenGui",
+          "guid": "134948",
+          "children": [
+            {
+              "name": "TextLabel",
+              "className": "TextLabel",
+              "guid": "134966"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "StarterPack",
+      "className": "StarterPack",
+      "guid": "134269"
+    },
+    {
       "name": "StarterPlayer",
       "className": "StarterPlayer",
+      "guid": "134268",
       "children": [
+        {
+          "name": "StarterCharacterScripts",
+          "className": "StarterCharacterScripts",
+          "guid": "134951",
+          "children": [
+            {
+              "name": "Animate",
+              "className": "LocalScript",
+              "guid": "134901",
+              "filePaths": [
+                "sync/StarterPlayer/StarterCharacterScripts/Animate.client.luau"
+              ],
+              "children": [
+                {
+                  "name": "climb",
+                  "className": "StringValue",
+                  "guid": "134957",
+                  "children": [
+                    {
+                      "name": "ClimbAnim",
+                      "className": "Animation",
+                      "guid": "134872"
+                    }
+                  ]
+                },
+                {
+                  "name": "fall",
+                  "className": "StringValue",
+                  "guid": "134959",
+                  "children": [
+                    {
+                      "name": "FallAnim",
+                      "className": "Animation",
+                      "guid": "134874"
+                    }
+                  ]
+                },
+                {
+                  "name": "idle",
+                  "className": "StringValue",
+                  "guid": "134953",
+                  "children": [
+                    {
+                      "name": "Animation1",
+                      "className": "Animation",
+                      "guid": "134867",
+                      "children": [
+                        {
+                          "name": "Weight",
+                          "className": "NumberValue",
+                          "guid": "134943"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Animation2",
+                      "className": "Animation",
+                      "guid": "134868",
+                      "children": [
+                        {
+                          "name": "Weight",
+                          "className": "NumberValue",
+                          "guid": "134944"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "jump",
+                  "className": "StringValue",
+                  "guid": "134956",
+                  "children": [
+                    {
+                      "name": "JumpAnim",
+                      "className": "Animation",
+                      "guid": "134871"
+                    }
+                  ]
+                },
+                {
+                  "name": "PlayEmote",
+                  "className": "BindableFunction",
+                  "guid": "134884"
+                },
+                {
+                  "name": "run",
+                  "className": "StringValue",
+                  "guid": "134955",
+                  "children": [
+                    {
+                      "name": "RunAnim",
+                      "className": "Animation",
+                      "guid": "134870"
+                    }
+                  ]
+                },
+                {
+                  "name": "ScaleDampeningPercent",
+                  "className": "NumberValue",
+                  "guid": "134945"
+                },
+                {
+                  "name": "sit",
+                  "className": "StringValue",
+                  "guid": "134960",
+                  "children": [
+                    {
+                      "name": "SitAnim",
+                      "className": "Animation",
+                      "guid": "134875"
+                    }
+                  ]
+                },
+                {
+                  "name": "toolnone",
+                  "className": "StringValue",
+                  "guid": "134958",
+                  "children": [
+                    {
+                      "name": "ToolNoneAnim",
+                      "className": "Animation",
+                      "guid": "134873"
+                    }
+                  ]
+                },
+                {
+                  "name": "walk",
+                  "className": "StringValue",
+                  "guid": "134954",
+                  "children": [
+                    {
+                      "name": "WalkAnim",
+                      "className": "Animation",
+                      "guid": "134869"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
         {
           "name": "StarterPlayerScripts",
           "className": "StarterPlayerScripts",
+          "guid": "134952",
           "children": [
             {
               "name": "LocalScript",
               "className": "LocalScript",
+              "guid": "134900",
               "filePaths": [
                 "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
               ]
@@ -20,6 +246,7 @@
             {
               "name": "PlayerModule",
               "className": "ModuleScript",
+              "guid": "134904",
               "filePaths": [
                 "sync/StarterPlayer/StarterPlayerScripts/PlayerModule.luau"
               ],
@@ -27,6 +254,7 @@
                 {
                   "name": "CameraModule",
                   "className": "ModuleScript",
+                  "guid": "134921",
                   "filePaths": [
                     "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule.luau"
                   ],
@@ -34,6 +262,7 @@
                     {
                       "name": "BaseCamera",
                       "className": "ModuleScript",
+                      "guid": "134925",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/BaseCamera.luau"
                       ]
@@ -41,6 +270,7 @@
                     {
                       "name": "BaseOcclusion",
                       "className": "ModuleScript",
+                      "guid": "134932",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/BaseOcclusion.luau"
                       ]
@@ -48,6 +278,7 @@
                     {
                       "name": "CameraConfig",
                       "className": "ModuleScript",
+                      "guid": "134934",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraConfig.luau"
                       ]
@@ -55,6 +286,7 @@
                     {
                       "name": "CameraInput",
                       "className": "ModuleScript",
+                      "guid": "134924",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraInput.luau"
                       ]
@@ -62,6 +294,7 @@
                     {
                       "name": "CameraState",
                       "className": "ModuleScript",
+                      "guid": "134935",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraState.luau"
                       ]
@@ -69,6 +302,7 @@
                     {
                       "name": "CameraToggleStateController",
                       "className": "ModuleScript",
+                      "guid": "134927",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraToggleStateController.luau"
                       ]
@@ -76,6 +310,7 @@
                     {
                       "name": "CameraUI",
                       "className": "ModuleScript",
+                      "guid": "134926",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraUI.luau"
                       ]
@@ -83,6 +318,7 @@
                     {
                       "name": "CameraUtils",
                       "className": "ModuleScript",
+                      "guid": "134928",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CameraUtils.luau"
                       ]
@@ -90,6 +326,7 @@
                     {
                       "name": "CrosshairController",
                       "className": "ModuleScript",
+                      "guid": "134940",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/CrosshairController.luau"
                       ]
@@ -97,6 +334,7 @@
                     {
                       "name": "DampeningController",
                       "className": "ModuleScript",
+                      "guid": "134936",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/DampeningController.luau"
                       ]
@@ -104,6 +342,7 @@
                     {
                       "name": "GenericCamera",
                       "className": "ModuleScript",
+                      "guid": "134937",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/GenericCamera.luau"
                       ]
@@ -111,6 +350,7 @@
                     {
                       "name": "HeadTrackingController",
                       "className": "ModuleScript",
+                      "guid": "134941",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/HeadTrackingController.luau"
                       ]
@@ -118,6 +358,7 @@
                     {
                       "name": "Invisicam",
                       "className": "ModuleScript",
+                      "guid": "134922",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/Invisicam.luau"
                       ]
@@ -125,13 +366,22 @@
                     {
                       "name": "MouseLockController",
                       "className": "ModuleScript",
+                      "guid": "134931",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/MouseLockController.luau"
+                      ],
+                      "children": [
+                        {
+                          "name": "CrossHair",
+                          "className": "Decal",
+                          "guid": "134893"
+                        }
                       ]
                     },
                     {
                       "name": "OffsetController",
                       "className": "ModuleScript",
+                      "guid": "134939",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/OffsetController.luau"
                       ]
@@ -139,6 +389,7 @@
                     {
                       "name": "Poppercam",
                       "className": "ModuleScript",
+                      "guid": "134933",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/Poppercam.luau"
                       ]
@@ -146,6 +397,7 @@
                     {
                       "name": "ShakeController",
                       "className": "ModuleScript",
+                      "guid": "134938",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/ShakeController.luau"
                       ]
@@ -153,6 +405,7 @@
                     {
                       "name": "TransparencyController",
                       "className": "ModuleScript",
+                      "guid": "134923",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/TransparencyController.luau"
                       ]
@@ -160,6 +413,7 @@
                     {
                       "name": "ZoomController",
                       "className": "ModuleScript",
+                      "guid": "134929",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/ZoomController.luau"
                       ],
@@ -167,6 +421,7 @@
                         {
                           "name": "Popper",
                           "className": "ModuleScript",
+                          "guid": "134930",
                           "filePaths": [
                             "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CameraModule/ZoomController/Popper.luau"
                           ]
@@ -178,10 +433,12 @@
                 {
                   "name": "CommonUtils",
                   "className": "Folder",
+                  "guid": "134895",
                   "children": [
                     {
                       "name": "CameraWrapper",
                       "className": "ModuleScript",
+                      "guid": "134918",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CommonUtils/CameraWrapper.luau"
                       ]
@@ -189,6 +446,7 @@
                     {
                       "name": "CharacterUtil",
                       "className": "ModuleScript",
+                      "guid": "134917",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CommonUtils/CharacterUtil.luau"
                       ]
@@ -196,6 +454,7 @@
                     {
                       "name": "ConnectionUtil",
                       "className": "ModuleScript",
+                      "guid": "134919",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CommonUtils/ConnectionUtil.luau"
                       ]
@@ -203,6 +462,7 @@
                     {
                       "name": "FlagUtil",
                       "className": "ModuleScript",
+                      "guid": "134920",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/CommonUtils/FlagUtil.luau"
                       ]
@@ -212,6 +472,7 @@
                 {
                   "name": "ControlModule",
                   "className": "ModuleScript",
+                  "guid": "134905",
                   "filePaths": [
                     "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule.luau"
                   ],
@@ -219,6 +480,7 @@
                     {
                       "name": "BaseCharacterController",
                       "className": "ModuleScript",
+                      "guid": "134913",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/BaseCharacterController.luau"
                       ]
@@ -226,6 +488,7 @@
                     {
                       "name": "ClickToMoveController",
                       "className": "ModuleScript",
+                      "guid": "134916",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/ClickToMoveController.luau"
                       ]
@@ -233,6 +496,7 @@
                     {
                       "name": "ClickToMoveDisplay",
                       "className": "ModuleScript",
+                      "guid": "134911",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/ClickToMoveDisplay.luau"
                       ]
@@ -240,6 +504,7 @@
                     {
                       "name": "DynamicThumbstick",
                       "className": "ModuleScript",
+                      "guid": "134909",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/DynamicThumbstick.luau"
                       ]
@@ -247,6 +512,7 @@
                     {
                       "name": "Gamepad",
                       "className": "ModuleScript",
+                      "guid": "134907",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/Gamepad.luau"
                       ]
@@ -254,6 +520,7 @@
                     {
                       "name": "Keyboard",
                       "className": "ModuleScript",
+                      "guid": "134915",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/Keyboard.luau"
                       ]
@@ -261,6 +528,7 @@
                     {
                       "name": "PathDisplay",
                       "className": "ModuleScript",
+                      "guid": "134906",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/PathDisplay.luau"
                       ]
@@ -268,6 +536,7 @@
                     {
                       "name": "TouchJump",
                       "className": "ModuleScript",
+                      "guid": "134912",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/TouchJump.luau"
                       ]
@@ -275,6 +544,7 @@
                     {
                       "name": "TouchThumbstick",
                       "className": "ModuleScript",
+                      "guid": "134910",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/TouchThumbstick.luau"
                       ]
@@ -282,6 +552,7 @@
                     {
                       "name": "VehicleController",
                       "className": "ModuleScript",
+                      "guid": "134914",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/VehicleController.luau"
                       ]
@@ -289,6 +560,7 @@
                     {
                       "name": "VRNavigation",
                       "className": "ModuleScript",
+                      "guid": "134908",
                       "filePaths": [
                         "sync/StarterPlayer/StarterPlayerScripts/PlayerModule/ControlModule/VRNavigation.luau"
                       ]
@@ -300,6 +572,7 @@
             {
               "name": "PlayerScriptsLoader",
               "className": "LocalScript",
+              "guid": "134898",
               "filePaths": [
                 "sync/StarterPlayer/StarterPlayerScripts/PlayerScriptsLoader.client.luau"
               ]
@@ -307,6 +580,7 @@
             {
               "name": "RbxCharacterSounds",
               "className": "LocalScript",
+              "guid": "134899",
               "filePaths": [
                 "sync/StarterPlayer/StarterPlayerScripts/RbxCharacterSounds.client.luau"
               ],
@@ -314,6 +588,7 @@
                 {
                   "name": "AtomicBinding",
                   "className": "ModuleScript",
+                  "guid": "134903",
                   "filePaths": [
                     "sync/StarterPlayer/StarterPlayerScripts/RbxCharacterSounds/AtomicBinding.luau"
                   ]
@@ -325,990 +600,43 @@
       ]
     },
     {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
+      "name": "Workspace",
+      "className": "Workspace",
+      "guid": "133410",
       "children": [
         {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
+          "name": "Baseplate",
+          "className": "Part",
+          "guid": "134946",
           "children": [
             {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
+              "name": "Texture",
+              "className": "Texture",
+              "guid": "134967"
             }
           ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
+        },
         {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
+          "name": "Camera",
+          "className": "Camera",
+          "guid": "134887"
+        },
         {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
+          "name": "SpawnLocation",
+          "className": "SpawnLocation",
+          "guid": "134950",
           "children": [
             {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
+              "name": "Decal",
+              "className": "Decal",
+              "guid": "134892"
             }
           ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
+        },
         {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "StarterPlayer",
-      "className": "StarterPlayer",
-      "children": [
-        {
-          "name": "StarterPlayerScripts",
-          "className": "StarterPlayerScripts",
-          "children": [
-            {
-              "name": "LocalScript",
-              "className": "LocalScript",
-              "filePaths": [
-                "sync/StarterPlayer/StarterPlayerScripts/LocalScript.client.luau"
-              ]
-            }
-          ]
+          "name": "Terrain",
+          "className": "Terrain",
+          "guid": "134964"
         }
       ]
     }

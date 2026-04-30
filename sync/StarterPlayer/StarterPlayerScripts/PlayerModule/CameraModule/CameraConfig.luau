@@ -17,7 +17,7 @@ local CameraConfig = {
 	offset = {
 		enabled = true,
 		defaultOffset = Vector3.new(0, 0, 0),
-		mouseLockOffset = Vector3.new(1.5, 0.8, 1.5),
+		mouseLockOffset = Vector3.new(1, 0.6, 1.1),
 		smoothTransitionFreq = 6,
 	},
 	zoom = {
