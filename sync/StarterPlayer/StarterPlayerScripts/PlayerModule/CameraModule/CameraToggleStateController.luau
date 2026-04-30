@@ -9,7 +9,7 @@ local CameraUtils = require(script.Parent:WaitForChild("CameraUtils"))
 local lastTogglePan = false
 local lastTogglePanChange = tick()
 
-local CROSS_MOUSE_ICON = "rbxasset://textures/Cursors/CrossMouseIcon.png"
+local CROSS_MOUSE_ICON = "rbxasset://SystemCursors/Cross"
 
 local lockStateDirty = false
 local wasTogglePanOnTheLastTimeYouWentIntoFirstPerson = false

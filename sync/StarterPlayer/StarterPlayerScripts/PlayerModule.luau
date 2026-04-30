@@ -24,8 +24,9 @@ function PlayerModule:GetControls()
 	return self.controls
 end
 
-function PlayerModule:GetClickToMoveController()
-	return self.controls:GetClickToMoveController()
+function PlayerModule:GetSprint()
+	return self.controls:GetSprintController()
 end
+
 
 return PlayerModule.new()

@@ -23,15 +23,13 @@ ControlModule.__index = ControlModule
 
 --[[ Roblox Services ]]--
 local Players = game:GetService("Players")
+local ContextActionService = game:GetService("ContextActionService")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 local GuiService = game:GetService("GuiService")
 local Workspace = game:GetService("Workspace")
 local UserGameSettings = UserSettings():GetService("UserGameSettings")
 local VRService = game:GetService("VRService")
-
--- Roblox User Input Control Modules - each returns a new() constructor function used to create controllers as needed
-local CommonUtils = script.Parent:WaitForChild("CommonUtils")
 
 local Keyboard = require(script:WaitForChild("Keyboard"))
 local Gamepad = require(script:WaitForChild("Gamepad"))
@@ -46,9 +44,7 @@ end
 
 local TouchThumbstick = require(script:WaitForChild("TouchThumbstick"))
 
--- These controllers handle only walk/run movement, jumping is handled by the
--- TouchJump controller if any of these are active
-local ClickToMove = require(script:WaitForChild("ClickToMoveController"))
+-- TouchJump controller for jumping on touch devices
 local TouchJump = require(script:WaitForChild("TouchJump"))
 
 local VehicleController = require(script:WaitForChild("VehicleController"))
@@ -56,6 +52,140 @@ local VehicleController = require(script:WaitForChild("VehicleController"))
 local CONTROL_ACTION_PRIORITY = Enum.ContextActionPriority.Medium.Value
 local NECK_OFFSET = -0.7
 local FIRST_PERSON_THRESHOLD_DISTANCE = 5
+
+local SprintConfig = require(script:WaitForChild("SprintConfig"))
+
+local function createSprintController(controlActionPriority: number)
+	local sprintController = {
+		enabled = false,
+		currentStamina = SprintConfig.maxStamina,
+		isSprintPressed = false,
+		isSprintActive = false,
+		_keyboardHeld = false,
+		_gamepadHeld = false,
+	}
+
+	local function updateInputState(keyboardHeld: boolean?, gamepadHeld: boolean?)
+		if keyboardHeld ~= nil then
+			sprintController._keyboardHeld = keyboardHeld
+		end
+		if gamepadHeld ~= nil then
+			sprintController._gamepadHeld = gamepadHeld
+		end
+		sprintController.isSprintPressed = sprintController._keyboardHeld or sprintController._gamepadHeld
+	end
+
+	function sprintController:BindInputs()
+		local function handleKeyboardSprint(_actionName, inputState)
+			updateInputState(inputState == Enum.UserInputState.Begin, nil)
+			return Enum.ContextActionResult.Pass
+		end
+
+		local function handleGamepadSprint(_actionName, inputState)
+			updateInputState(nil, inputState == Enum.UserInputState.Begin)
+			return Enum.ContextActionResult.Pass
+		end
+
+		ContextActionService:BindActionAtPriority(
+			SprintConfig.keyboardActionName,
+			handleKeyboardSprint,
+			false,
+			controlActionPriority,
+			SprintConfig.keyboardSprintKey
+		)
+
+		ContextActionService:BindActionAtPriority(
+			SprintConfig.gamepadActionName,
+			handleGamepadSprint,
+			false,
+			controlActionPriority,
+			SprintConfig.gamepadSprintKey
+		)
+	end
+
+	function sprintController:UnbindInputs()
+		ContextActionService:UnbindAction(SprintConfig.keyboardActionName)
+		ContextActionService:UnbindAction(SprintConfig.gamepadActionName)
+		updateInputState(false, false)
+	end
+
+	function sprintController:Enable(enable: boolean): boolean
+		if enable == self.enabled then
+			return true
+		end
+
+		if enable then
+			self.currentStamina = math.clamp(self.currentStamina, 0, SprintConfig.maxStamina)
+			self:BindInputs()
+		else
+			self:UnbindInputs()
+			self.isSprintActive = false
+		end
+
+		self.enabled = enable
+		return true
+	end
+
+	function sprintController:Update(dt: number)
+		if not self.enabled then
+			return
+		end
+
+		local drain = SprintConfig.staminaDrainPerSecond * dt
+		local recovery = SprintConfig.staminaRecoveryPerSecond * dt
+
+		if self.isSprintPressed and self.currentStamina > 0 then
+			self.isSprintActive = true
+			self.currentStamina = math.max(0, self.currentStamina - drain)
+			if self.currentStamina <= 0 then
+				self.isSprintActive = false
+			end
+		else
+			self.isSprintActive = false
+			self.currentStamina = math.min(SprintConfig.maxStamina, self.currentStamina + recovery)
+		end
+	end
+
+	function sprintController:GetSprintMultiplier(): number
+		if self.isSprintActive then
+			return math.max(1, SprintConfig.speedMultiplier)
+		end
+		return 1
+	end
+
+	function sprintController:GetStaminaPercent(): number
+		if SprintConfig.maxStamina <= 0 then
+			return 0
+		end
+		return math.clamp(self.currentStamina / SprintConfig.maxStamina, 0, 1)
+	end
+
+	function sprintController:SetSprintSpeed(multiplier: number)
+		SprintConfig.speedMultiplier = math.max(1, multiplier)
+	end
+
+	function sprintController:SetStaminaConfig(maxStamina: number, drainPerSecond: number, recoveryPerSecond: number)
+		SprintConfig.maxStamina = math.max(1, maxStamina)
+		SprintConfig.staminaDrainPerSecond = math.max(0, drainPerSecond)
+		SprintConfig.staminaRecoveryPerSecond = math.max(0, recoveryPerSecond)
+		self.currentStamina = math.min(self.currentStamina, SprintConfig.maxStamina)
+	end
+
+	function sprintController:SetSprintInput(keyboardKey: Enum.KeyCode?, gamepadKey: Enum.KeyCode?)
+		if keyboardKey then
+			SprintConfig.keyboardSprintKey = keyboardKey
+		end
+		if gamepadKey then
+			SprintConfig.gamepadSprintKey = gamepadKey
+		end
+		if self.enabled then
+			self:UnbindInputs()
+			self:BindInputs()
+		end
+	end
+
+	return sprintController
+end
 
 -- Mapping from movement mode enum values to control modules to avoid huge if elseif switching
 local movementEnumToModuleMap = {
@@ -67,8 +197,6 @@ local movementEnumToModuleMap = {
 	[Enum.DevTouchMovementMode.Thumbstick] = TouchThumbstick,
 	[Enum.TouchMovementMode.DynamicThumbstick] = DynamicThumbstick,
 	[Enum.DevTouchMovementMode.DynamicThumbstick] = DynamicThumbstick,
-	[Enum.TouchMovementMode.ClickToMove] = ClickToMove,
-	[Enum.DevTouchMovementMode.ClickToMove] = ClickToMove,
 
 	-- Current default
 	[Enum.TouchMovementMode.Default] = DynamicThumbstick,
@@ -77,8 +205,6 @@ local movementEnumToModuleMap = {
 	[Enum.ComputerMovementMode.KeyboardMouse] = Keyboard,
 	[Enum.DevComputerMovementMode.KeyboardMouse] = Keyboard,
 	[Enum.DevComputerMovementMode.Scriptable] = nil,
-	[Enum.ComputerMovementMode.ClickToMove] = ClickToMove,
-	[Enum.DevComputerMovementMode.ClickToMove] = ClickToMove,
 }
 
 function ControlModule.new()
@@ -104,10 +230,15 @@ function ControlModule.new()
 
 	self.inputMoveVector = Vector3.new(0,0,0)
 
+	self.sprintController = createSprintController(CONTROL_ACTION_PRIORITY)
 	self.vehicleController = VehicleController.new(CONTROL_ACTION_PRIORITY)
 
-	Players.LocalPlayer.CharacterAdded:Connect(function(char) self:OnCharacterAdded(char) end)
-	Players.LocalPlayer.CharacterRemoving:Connect(function(char) self:OnCharacterRemoving(char) end)
+	Players.LocalPlayer.CharacterAdded:Connect(function(char)
+		self:OnCharacterAdded(char)
+	end)
+	Players.LocalPlayer.CharacterRemoving:Connect(function(char)
+		self:OnCharacterRemoving(char)
+	end)
 	if Players.LocalPlayer.Character then
 		self:OnCharacterAdded(Players.LocalPlayer.Character)
 	end
@@ -159,6 +290,10 @@ function ControlModule.new()
 	self:UpdateMovementMode()
 
 	return self
+end
+
+function ControlModule:GetSprintController()
+	return self.sprintController
 end
 
 -- Convenience function so that calling code does not have to first get the activeController
@@ -249,8 +384,7 @@ function ControlModule:UpdateActiveControlModuleEnabled()
 	local enable = function()
 		if self.touchControlFrame and (UserInputService.PreferredInput == Enum.PreferredInput.Touch)
 			and (
-				self.activeControlModule == ClickToMove
-				or self.activeControlModule == TouchThumbstick
+				self.activeControlModule == TouchThumbstick
 				or self.activeControlModule == DynamicThumbstick
 			)
 		then
@@ -265,15 +399,7 @@ function ControlModule:UpdateActiveControlModuleEnabled()
 			end
 		end
 
-		if self.activeControlModule == ClickToMove then
-			-- For ClickToMove, when it is the player's choice, we also enable the full keyboard controls.
-			-- When the developer is forcing click to move, the most keyboard controls (WASD) are not available, only jump.
-			self.activeController:Enable(
-				true,
-				Players.LocalPlayer.DevComputerMovementMode == Enum.DevComputerMovementMode.UserChoice,
-				self.touchJumpController
-			)
-		elseif self.touchControlFrame then
+		if self.touchControlFrame then
 			self.activeController:Enable(true, self.touchControlFrame)
 		else
 			self.activeController:Enable(true)
@@ -294,7 +420,7 @@ function ControlModule:UpdateActiveControlModuleEnabled()
 	-- GuiService.TouchControlsEnabled == false and the active controller is a touch controller,
 	-- disable controls
 	if not GuiService.TouchControlsEnabled and UserInputService.PreferredInput == Enum.PreferredInput.Touch and
-		(self.activeControlModule == ClickToMove or self.activeControlModule == TouchThumbstick or
+		(self.activeControlModule == TouchThumbstick or
 			self.activeControlModule == DynamicThumbstick) then
 		disable()
 		return
@@ -338,11 +464,6 @@ function ControlModule:SelectComputerMovementModule(): ({}?, boolean)
 			computerModule = Gamepad
 		elseif UserInputService.PreferredInput == Enum.PreferredInput.KeyboardAndMouse then
 			computerModule = Keyboard
-		end
-
-		if UserGameSettings.ComputerMovementMode == Enum.ComputerMovementMode.ClickToMove and computerModule == Keyboard then
-			-- User has ClickToMove set in Settings, prefer ClickToMove controller when using keyboard and mouse
-			computerModule = ClickToMove
 		end
 	else
 		-- Developer has selected a mode that must be used.
@@ -453,29 +574,18 @@ end
 function ControlModule:OnRenderStepped(dt)
 	if self.activeController and self.activeController.enabled and self.humanoid then
 
+		-- Update sprint controller each frame
+		if self.sprintController then
+			self.sprintController:Update(dt)
+		end
+
 		-- Now retrieve info from the controller
 		local moveVector = self.activeController:GetMoveVector()
 		local cameraRelative = self.activeController:IsMoveVectorCameraRelative()
 
-		local clickToMoveController = self:GetClickToMoveController()
-		if self.activeController == clickToMoveController then
-			clickToMoveController:OnRenderStepped(dt)
-		else
-			if moveVector.magnitude > 0 then
-				-- Clean up any developer started MoveTo path
-				clickToMoveController:CleanupPath()
-			else
-				-- Get move vector for developer started MoveTo
-				clickToMoveController:OnRenderStepped(dt)
-				moveVector = clickToMoveController:GetMoveVector()
-				cameraRelative = clickToMoveController:IsMoveVectorCameraRelative()
-			end
-		end
-
 		-- Are we driving a vehicle ?
-		local vehicleConsumedInput = false
 		if self.vehicleController then
-			moveVector, vehicleConsumedInput = self.vehicleController:Update(moveVector, cameraRelative, self.activeControlModule==Gamepad)
+			moveVector = self.vehicleController:Update(moveVector, cameraRelative, self.activeControlModule == Gamepad)
 		end
 
 		-- If not, move the player
@@ -493,6 +603,14 @@ function ControlModule:OnRenderStepped(dt)
 
 		self.moveFunction(Players.LocalPlayer, moveVector, false)
 		--end
+
+		-- Apply sprint speed multiplier to movement
+		local sprintMultiplier = 1.0
+		if self.sprintController then
+			sprintMultiplier = self.sprintController:GetSprintMultiplier()
+		end
+		local baseWalkSpeed = 16 -- Default Humanoid.WalkSpeed
+		self.humanoid.WalkSpeed = baseWalkSpeed * sprintMultiplier
 
 		-- And make them jump if needed
 		self.humanoid.Jump = self.activeController:GetIsJumping() or (self.touchJumpController and self.touchJumpController:GetIsJumping())
@@ -552,13 +670,25 @@ function ControlModule:OnCharacterAdded(char)
 	end
 	self.humanoidSeatedConn = self.humanoid.Seated:Connect(function(active, currentSeatPart)
 		self:OnHumanoidSeated(active, currentSeatPart)
+		-- Enable sprint controller for this character
+		if self.sprintController then
+			self.sprintController:Enable(true)
+		end
 	end)
+
+	if self.sprintController then
+		self.sprintController:Enable(true)
+	end
 
 	self:UpdateMovementMode()
 end
 
-function ControlModule:OnCharacterRemoving(char)
+function ControlModule:OnCharacterRemoving(_char)
 	self.humanoid = nil
+
+	if self.sprintController then
+		self.sprintController:Enable(false)
+	end
 
 	self:UpdateMovementMode()
 end
@@ -642,7 +772,9 @@ function ControlModule:CreateTouchGuiContainer()
 		return
 	end
 
-	if self.touchGui then self.touchGui:Destroy() end
+	if self.touchGui then
+		self.touchGui:Destroy()
+	end
 
 	-- Container for all touch device guis
 	self.touchGui = Instance.new("ScreenGui")
@@ -656,18 +788,11 @@ function ControlModule:CreateTouchGuiContainer()
 
 	self.touchControlFrame = Instance.new("Frame")
 	self.touchControlFrame.Name = "TouchControlFrame"
-	self.touchControlFrame.Size = UDim2.new(1, 0, 1, 0)
+	self.touchControlFrame.Size = UDim2.fromScale(1, 1)
 	self.touchControlFrame.BackgroundTransparency = 1
 	self.touchControlFrame.Parent = self.touchGui
 
 	self.touchGui.Parent = self.playerGui
-end
-
-function ControlModule:GetClickToMoveController()
-	if not self.controllers[ClickToMove] then
-		self.controllers[ClickToMove] = ClickToMove.new(CONTROL_ACTION_PRIORITY)
-	end
-	return self.controllers[ClickToMove]
 end
 
 return ControlModule.new()

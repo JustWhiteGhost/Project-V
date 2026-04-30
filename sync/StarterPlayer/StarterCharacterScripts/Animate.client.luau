@@ -9,6 +9,10 @@ local LeftHip = Torso:WaitForChild("Left Hip")
 local Neck = Torso:WaitForChild("Neck")
 local Humanoid = Figure:WaitForChild("Humanoid")
 local pose = "Standing"
+local isSprinting = false
+
+local PlayerModule = require(game.Players.LocalPlayer.PlayerScripts:WaitForChild("PlayerModule"))
+local sprintController = PlayerModule:GetSprint()
 
 local EMOTE_TRANSITION_TIME = 0.1
 
@@ -30,6 +34,9 @@ local animNames = {
 	walk = 	{ 	
 				{ id = "http://www.roblox.com/asset/?id=180426354", weight = 10 } 
 			}, 
+	sprint = {
+		{ id = "http://www.roblox.com/asset/?id=111735829488628", weight = 10 }
+			},
 	run = 	{
 				{ id = "run.xml", weight = 10 } 
 			}, 
@@ -346,16 +353,24 @@ function onRunning(speed)
 	speed /= getRigScale()
 	
 	if speed > 0.01 then
-		playAnimation("walk", 0.1, Humanoid)
-		if currentAnimInstance and currentAnimInstance.AnimationId == "http://www.roblox.com/asset/?id=180426354" then
-			setAnimationSpeed(speed / 14.5)
+		local shouldSprint = sprintController.isSprintPressed
+		isSprinting = shouldSprint
+
+		if isSprinting then
+			playAnimation("sprint", 0.1, Humanoid)
+			setAnimationSpeed(speed / 24.0) -- adjust 24.0 to tune sprint anim speed
+		else
+			playAnimation("walk", 0.1, Humanoid)
+			setAnimationSpeed(speed / 14.5) -- existing walk divisor
 		end
+		
 		pose = "Running"
 	else
 		if emoteNames[currentAnim] == nil then
 			playAnimation("idle", 0.1, Humanoid)
 			pose = "Standing"
 		end
+		isSprinting = false
 	end
 end
 
@@ -472,7 +487,11 @@ function move(time)
 		playAnimation("sit", 0.5, Humanoid)
 		return
 	elseif (pose == "Running") then
-		playAnimation("walk", 0.1, Humanoid)
+    	if isSprinting then
+        	playAnimation("sprint", 0.1, Humanoid)
+    	else
+        	playAnimation("walk", 0.1, Humanoid)
+    	end
 	elseif (pose == "Dead" or pose == "GettingUp" or pose == "FallingDown" or pose == "Seated" or pose == "PlatformStanding") then
 --		print("Wha " .. pose)
 		stopAllAnimations()

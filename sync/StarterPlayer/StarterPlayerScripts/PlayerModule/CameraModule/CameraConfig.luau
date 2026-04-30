@@ -44,7 +44,7 @@ local CameraConfig = {
 	mouseLock = {
 		boundKeys = {
 			Enum.KeyCode.RightShift,
-			Enum.KeyCode.LeftShift,
+			Enum.KeyCode.LeftControl,
 		},
 		cursorImage = "rbxassetid://316279305", -- Placeholder asset ID for cursor image
 	},
